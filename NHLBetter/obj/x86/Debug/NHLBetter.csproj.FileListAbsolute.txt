@@ -1,9 +1,0 @@
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\obj\x86\Debug\NHLBetter.Properties.Resources.resources
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\obj\x86\Debug\GenerateResource.read.1.tlog
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\obj\x86\Debug\GenerateResource.write.1.tlog
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\obj\x86\Debug\NHLBetter.Form1.resources
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\bin\Debug\NHLBetter.exe
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\bin\Debug\NHLBetter.pdb
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\obj\x86\Debug\NHLBetter.exe
-C:\Users\Felix\Documents\NHLBetter\NHLBetter\obj\x86\Debug\NHLBetter.pdb
