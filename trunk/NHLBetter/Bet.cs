@@ -30,7 +30,10 @@ namespace NHLBetter
         public bool gameIsToday;
         public bool isTie = false;
         public string iniString;
-        public List<string> usedFields = new List<string>(); 
+        public List<string> usedFields = new List<string>();
+        public int betID;
+        public int multiplicator;
+        public double prob;
 
         public Bet()
         {
@@ -58,13 +61,6 @@ namespace NHLBetter
             return AssociatedMatch;
         }
 
-        virtual public string MakeBetStr()
-        {
-            const string BetStr = "Not implemented yet";
-
-            return BetStr;
-        }
-
         // Virtual method for initialization
         virtual public void Initialize()
         {
@@ -72,6 +68,18 @@ namespace NHLBetter
             IniGetTeam();
             IniGetOdd();
             IniGetPid();
+            IniGetId();
+        }
+
+        virtual protected void IniGetId()
+        {
+            var idStr = "";
+            var index = 0;
+            while(iniString[index] >= '0' && iniString[index] <= '9')
+            {
+                idStr += iniString[index++];
+            }
+            betID = int.Parse(idStr);
         }
 
         virtual protected void UsedFields()
@@ -84,7 +92,7 @@ namespace NHLBetter
             return Odd;
         }
 
-        // Use of a string in the case of less-than-five-numbers pids
+        // Use of a string in the case of less-than-five-digit pids
         public string GetPidString()
         {
             return Pid.ToString().Length == 5 ? Pid.ToString() : "0" + Pid;
@@ -109,6 +117,9 @@ namespace NHLBetter
             {
                 teamCity += iniString[index++];
             }
+
+            // Bug fix
+            teamCity = teamCity.Replace('?', 'e');
         }
 
         // Virtual method for getting loto-quebec odds
@@ -178,7 +189,17 @@ namespace NHLBetter
 
         public override string ToString()
         {
-            return "Not a bet";
+            return "Not a bet (" + TypeOfBet + ")";
+        }
+
+        virtual public void Probs()
+        {
+            prob = 0;
+        }
+
+        public virtual List<Bet> ManageBetList(List<Bet> betList)
+        {
+            return betList;
         }
     }
 }

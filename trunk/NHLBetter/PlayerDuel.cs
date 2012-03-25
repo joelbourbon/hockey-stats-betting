@@ -1,4 +1,6 @@
-﻿namespace NHLBetter
+﻿using System.Collections.Generic;
+
+namespace NHLBetter
 {
     public class PlayerDuel : Bet
     {
@@ -7,6 +9,7 @@
         public PlayerDuel()
         {
             TypeOfBet = Bet.BetType.PlayerDuelBet;
+            multiplicator = 3;
         }
 
         ~PlayerDuel()
@@ -17,6 +20,11 @@
         {
             isTie = iniString.Contains("Nul");
             return;
+        }
+
+        public override List<Bet> ManageBetList(List<Bet> betList)
+        {
+            return betList;
         }
     }
 }

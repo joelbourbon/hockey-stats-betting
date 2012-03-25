@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NHLBetter
 {
@@ -10,6 +11,10 @@ namespace NHLBetter
             Home = 0,
             Away = 1
         };
+
+        public Match()
+        {
+        }
 
         public Match(Team awayTeam, Team homeTeam, double timeOfGame, bool isBetOver) 
         {
@@ -43,6 +48,17 @@ namespace NHLBetter
             return this.GetHomeTeam().City + " vs " + GetAwayTeam().City + "\n";
         }
 
-        public string Te { get; set; }
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            var match = (Match) obj;
+            if(match == null)
+            {
+                return false;
+            }
+
+            return match.GetAwayTeam().City == GetAwayTeam().City && 
+                match.GetHomeTeam().City == GetHomeTeam().City;    
+        }
     }
 }

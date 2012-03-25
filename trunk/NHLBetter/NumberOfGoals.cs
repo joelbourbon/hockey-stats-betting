@@ -1,4 +1,6 @@
-﻿namespace NHLBetter
+﻿using System.Collections.Generic;
+
+namespace NHLBetter
 {
     public class NumberOfGoals : Bet
     {
@@ -8,6 +10,7 @@
         public NumberOfGoals()
         {
             TypeOfBet = Bet.BetType.NumberOfGoalsBet;
+            multiplicator = 2;
         }
 
         ~NumberOfGoals()
@@ -44,6 +47,11 @@
         public override string ToString()
         {
             return (isMoreThan ? "More than " : "Less than ") + numberOfGoals + " goals";
+        }
+
+        public override List<Bet> ManageBetList(List<Bet> betList)
+        {
+            return betList;
         }
     }
 }
