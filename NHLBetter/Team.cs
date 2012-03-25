@@ -33,6 +33,7 @@ namespace NHLBetter
         public float OutshootingPercentage { get; private set; }
         public float OutShotPercentage { get; private set; }
         public float FaceOffWinningPercentage { get; private set; }
+        public List<MatchOver> MatchOverList = new List<MatchOver>();
 
         // Constructeur privé
         private Team()
@@ -47,7 +48,7 @@ namespace NHLBetter
             var htmlDoc = (IHTMLDocument2) ms;
             var teamList = new List<Team>();
             var teamStrList = new List<string>();
-
+            
             var rawData =
                 Encoding.ASCII.GetString(
                     wc.DownloadData("http://www.nhl.com/ice/teamstats.htm?season=20112012&gameType=2&viewName=summary"));
@@ -67,9 +68,86 @@ namespace NHLBetter
                 if (teamStr.IndexOf("rel=" + abbreviation + ">") != -1)
                 {
                     this.FillTeamStats(RawDataToSeparatedStats(teamStr));
-                    this.LogoPath = "/TeamLogos/" + abbreviation + ".png";
+                    this.LogoPath = "Logos\\" + abbreviation + ".png";
                 }
             }
+
+            var numberOfPages = (int) GamesPlayed/30;
+            if (GamesPlayed % 30 > 0)
+                numberOfPages++;
+
+            var MatchOverStrList = new List<string>();
+            for (var i = 1; i <= numberOfPages; i++)
+            {
+                rawData = Encoding.ASCII.GetString(
+                    wc.DownloadData("http://www.nhl.com/ice/gamestats.htm?season=20112012&gameType=2&team=" +
+                                    abbreviation + "&viewName=gameSummary&pg=" + i));
+                var currentPage = numberOfPages - i + 1;
+                var startIndex = rawData.LastIndexOf("<tbody>");
+                var count = rawData.IndexOf("</tbody>", startIndex) - startIndex;
+                htmlStr = rawData.Substring(startIndex, count);
+
+                MatchOverStrList.AddRange(StringSeparator(htmlStr, "<tr>", "</tr>"));
+            }
+
+            foreach(var MatchOverStr in MatchOverStrList)
+            {
+                const string stringAfter = "</td";
+                const char charBefore = '>';
+                var separatedStats = StringSeparator(MatchOverStr, "<td ", stringAfter); 
+                
+                var oDate = GetStr(separatedStats[0], charBefore, "</a>");
+                var oTeamAgainstAbb = GetStr(separatedStats[5], charBefore, stringAfter);
+                var oDecision = GetChar(separatedStats[2], stringAfter);
+                var oIsHome = GetChar(separatedStats[4], stringAfter) == 'H';
+                var oGoalsFor = GetInt(separatedStats[7], charBefore, stringAfter);
+                var oGoalsAgainst = GetInt(separatedStats[8], charBefore, stringAfter);
+                var oPowerPlayGoals = GetInt(separatedStats[10], charBefore, stringAfter);
+                var oPowerPlayOpportunities = GetInt(separatedStats[11], charBefore, stringAfter);
+                var oPowerPlayGoalsAgainst = GetInt(separatedStats[12], charBefore, stringAfter);
+                var oTimesShorthanded = GetInt(separatedStats[13], charBefore, stringAfter);
+                var oShotsFor = GetInt(separatedStats[14], charBefore, stringAfter);
+                var oShotsAgainst = GetInt(separatedStats[15], charBefore, stringAfter);
+                var oWinningGoalie = GetStr(separatedStats[16], charBefore, "</a>");
+                
+                MatchOverList.Add(new MatchOver(oDate, oTeamAgainstAbb, oDecision,
+                                                oIsHome, oGoalsFor, oGoalsAgainst, oPowerPlayGoals,
+                                                oPowerPlayOpportunities, oPowerPlayGoalsAgainst, oTimesShorthanded,
+                                                oShotsFor, oShotsAgainst, oWinningGoalie));
+            }
+        }
+
+        //Gets the date string
+        private static string GetStr(string stringToParse, char separatorTo, string separatorFrom)
+        {
+            var index = stringToParse.IndexOf(separatorFrom) - 1;
+            var returnStr = "";
+
+            while (stringToParse[index] != separatorTo)
+            {
+                returnStr = returnStr.Insert(0, stringToParse[index--].ToString());
+            }
+
+            return returnStr;
+        }
+
+
+        private static char GetChar(string stringToParse, string after)
+        {
+            return stringToParse[stringToParse.IndexOf(after) - 1];
+        }
+
+        private static int GetInt(string stringToParse, char separatorTo, string separatorFrom)
+        {
+            var index = stringToParse.IndexOf(separatorFrom) - 1;
+            var returnStr = "";
+            
+            while(stringToParse[index] != separatorTo)
+            {
+                returnStr = returnStr.Insert(0, stringToParse[index--].ToString());
+            }
+
+            return int.Parse(returnStr);
         }
 
         /// <summary>
@@ -141,29 +219,53 @@ namespace NHLBetter
 
         public override string ToString()
         {
-            var teamString = City + " (" +
-                             Abbreviation + ") : " +
-                             GamesPlayed.ToString() + ", " +
-                             Wins.ToString() + ", " +
-                             Losses.ToString() + ", " +
-                             OverTimeLosses.ToString() + ", " +
-                             Points.ToString() + ", " +
-                             PointPercentage.ToString() + ", " +
-                             GoalsPerGame.ToString() + ", " +
-                             GoalsAgainstPerGame.ToString() + ", " +
-                             FiveOnFiveForAgainstRatio.ToString() + ", " +
-                             PowerPlayPercentage.ToString() + ", " +
-                             PenaltyKillPercentage.ToString() + ", " +
-                             ShotsPerGame.ToString() + ", " +
-                             ShotsAgainstPerGame.ToString() + ", " +
-                             WinningPercentageScoringFirst.ToString() + ", " +
-                             WinningPercentageTrailingFist.ToString() + ", " +
-                             WinningPercentageLeadingAfterOne.ToString() + ", " +
-                             WinningPercentageLeadingAfterTwo.ToString() + ", " +
-                             OutshootingPercentage.ToString() + ", " +
-                             OutShotPercentage.ToString() + ", " +
-                             FaceOffWinningPercentage.ToString() + ", ";
-            return teamString;
+            return City + " (" + Abbreviation + ") : " + GamesPlayed + ", " + Wins + ", " + Losses + ", " +
+                   OverTimeLosses + ", " + Points + ", " + PointPercentage + ", " + GoalsPerGame + ", " + GoalsAgainstPerGame + ", " +
+                   FiveOnFiveForAgainstRatio + ", " + PowerPlayPercentage + ", " + PenaltyKillPercentage + ", " + ShotsPerGame + ", " + 
+                   ShotsAgainstPerGame + ", " + WinningPercentageScoringFirst + ", " + WinningPercentageTrailingFist + ", " +
+                   WinningPercentageLeadingAfterOne + ", " + WinningPercentageLeadingAfterTwo + ", " + OutshootingPercentage + ", " + 
+                   OutShotPercentage + ", " + FaceOffWinningPercentage + ", ";
+        }
+
+        private List<string> StringSeparator(string stringToSeparate, string separatorFrom, string separatorTo)
+        {
+            if (separatorFrom != separatorTo && separatorFrom != "" && separatorTo != "" &&
+                stringToSeparate.Contains(separatorFrom) && stringToSeparate.Contains(separatorTo))
+            {
+                var stringList = new List<string>();
+
+                stringToSeparate = stringToSeparate.Remove(0, stringToSeparate.IndexOf(separatorFrom));
+                while (stringToSeparate.Contains(separatorFrom))
+                {
+                    var startIndex = stringToSeparate.IndexOf(separatorFrom);
+                    var endIndex = stringToSeparate.IndexOf(separatorTo) + separatorTo.Length;
+
+                    if (startIndex < endIndex && startIndex != -1 && endIndex != -1 && startIndex != endIndex)
+                    {
+                        stringList.Add(stringToSeparate.Substring(startIndex, endIndex - startIndex));
+                        stringToSeparate = stringToSeparate.Remove(startIndex, endIndex - startIndex);
+                    }
+                    else if (startIndex != -1 && endIndex != -1 && startIndex != endIndex)
+                    {
+                        stringList.Add(stringToSeparate.Substring(endIndex, startIndex - endIndex));
+                        stringToSeparate = stringToSeparate.Remove(endIndex, startIndex - endIndex);
+                    }
+                    else if (startIndex == -1 || endIndex == -1 || startIndex == endIndex ||
+                        ((!stringToSeparate.Contains(separatorFrom) || !stringToSeparate.Contains(separatorTo)) && stringList.Count > 0))
+                    {
+                        return stringList;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
+                //List of strings is returned
+                return stringList;
+            }
+            //if conditions were'nt satisfied, null pointer is returned
+            return null;
         }
     }
 }

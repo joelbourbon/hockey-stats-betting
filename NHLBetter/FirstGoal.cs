@@ -1,4 +1,6 @@
-﻿namespace NHLBetter
+﻿using System.Collections.Generic;
+
+namespace NHLBetter
 {
     public class FirstGoal : Bet
     {
@@ -8,6 +10,7 @@
         public FirstGoal()
         {
             TypeOfBet = Bet.BetType.FirstGoalBet;
+            multiplicator = 20;
         }
 
         ~FirstGoal()
@@ -24,6 +27,7 @@
 
             IniGetOdd();
             IniGetPid();
+            IniGetId();
 
             if(iniString.Contains("Tout autre joueur"))
             {
@@ -39,6 +43,11 @@
                 index = specialPlayer.IndexOf("-");
                 specialPlayer = specialPlayer.Substring(0, index);
             }
+        }
+
+        public override List<Bet> ManageBetList(List<Bet> betList)
+        {
+            return betList;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace NHLBetter
+﻿using System.Collections.Generic;
+
+namespace NHLBetter
 {
     class YesOrNo:Bet
     {
@@ -7,6 +9,7 @@
         public YesOrNo()
         {
             TypeOfBet = BetType.YesOrNoBet;
+            multiplicator = 2;
         }
         
         ~YesOrNo()
@@ -18,6 +21,11 @@
             answer = iniString.ToLower().Contains("oui");
             IniGetOdd();
             IniGetPid();
+        }
+
+        public override List<Bet> ManageBetList(List<Bet> betList)
+        {
+            return betList;
         }
 
     }

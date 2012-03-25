@@ -30,17 +30,6 @@
     {
         this.buttonRefresh = new System.Windows.Forms.Button();
         this.GamesAvailable = new System.Windows.Forms.Label();
-        this.ThreeIssuesWinnerCheckBox = new System.Windows.Forms.CheckBox();
-        this.TwoIssuesWinnerCheckBox = new System.Windows.Forms.CheckBox();
-        this.WinnerWithGoalDifferenceCheckBox = new System.Windows.Forms.CheckBox();
-        this.NumberOfGoalsCheckBox = new System.Windows.Forms.CheckBox();
-        this.MostMinutesOfPenaltyCheckBox = new System.Windows.Forms.CheckBox();
-        this.ShotOnGoalCheckBox = new System.Windows.Forms.CheckBox();
-        this.YesOrNoCheckBox = new System.Windows.Forms.CheckBox();
-        this.PlayerDuelCheckBox = new System.Windows.Forms.CheckBox();
-        this.TeamWithMoreHitsCheckBox = new System.Windows.Forms.CheckBox();
-        this.FirstGoalCheckBox = new System.Windows.Forms.CheckBox();
-        this.ExactScoreCheckBox = new System.Windows.Forms.CheckBox();
         this.pictureBox1 = new System.Windows.Forms.PictureBox();
         this.pictureBox2 = new System.Windows.Forms.PictureBox();
         this.listBox1 = new System.Windows.Forms.ListBox();
@@ -108,19 +97,30 @@
         this.WPLA2Lbl = new System.Windows.Forms.Label();
         this.AvailableBetList = new System.Windows.Forms.ListBox();
         this.BetsAvailableStr = new System.Windows.Forms.Label();
-        this.GainMarginCheckBox = new System.Windows.Forms.CheckBox();
-        this.LogWindow = new System.Windows.Forms.RichTextBox();
         this.OddsLbl = new System.Windows.Forms.Label();
         this.Odd = new System.Windows.Forms.Label();
         this.Pid = new System.Windows.Forms.Label();
         this.label4 = new System.Windows.Forms.Label();
+        this.Prob = new System.Windows.Forms.Label();
+        this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+        this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+        this.FilterLbl = new System.Windows.Forms.Label();
+        this.FilterListBox = new System.Windows.Forms.CheckedListBox();
+        this.FilterUpDown = new System.Windows.Forms.NumericUpDown();
+        this.FilterSentence1 = new System.Windows.Forms.Label();
+        this.Unit = new System.Windows.Forms.Label();
+        this.FilterFactor = new System.Windows.Forms.ComboBox();
+        this.FilterItems = new System.Windows.Forms.ListBox();
+        this.ComputeProb = new System.Windows.Forms.Button();
+        this.FilterBetTypeDropDown = new System.Windows.Forms.ComboBox();
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)(this.FilterUpDown)).BeginInit();
         this.SuspendLayout();
         // 
         // buttonRefresh
         // 
-        this.buttonRefresh.Location = new System.Drawing.Point(747, 112);
+        this.buttonRefresh.Location = new System.Drawing.Point(772, 82);
         this.buttonRefresh.Margin = new System.Windows.Forms.Padding(4);
         this.buttonRefresh.Name = "buttonRefresh";
         this.buttonRefresh.Size = new System.Drawing.Size(100, 28);
@@ -132,146 +132,11 @@
         // GamesAvailable
         // 
         this.GamesAvailable.AutoSize = true;
-        this.GamesAvailable.Location = new System.Drawing.Point(41, 136);
+        this.GamesAvailable.Location = new System.Drawing.Point(41, 39);
         this.GamesAvailable.Name = "GamesAvailable";
         this.GamesAvailable.Size = new System.Drawing.Size(114, 17);
         this.GamesAvailable.TabIndex = 3;
         this.GamesAvailable.Text = "Games Available";
-        // 
-        // ThreeIssuesWinnerCheckBox
-        // 
-        this.ThreeIssuesWinnerCheckBox.AccessibleRole = System.Windows.Forms.AccessibleRole.MenuBar;
-        this.ThreeIssuesWinnerCheckBox.AutoSize = true;
-        this.ThreeIssuesWinnerCheckBox.Checked = true;
-        this.ThreeIssuesWinnerCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.ThreeIssuesWinnerCheckBox.Location = new System.Drawing.Point(44, 12);
-        this.ThreeIssuesWinnerCheckBox.Name = "ThreeIssuesWinnerCheckBox";
-        this.ThreeIssuesWinnerCheckBox.Size = new System.Drawing.Size(161, 21);
-        this.ThreeIssuesWinnerCheckBox.TabIndex = 4;
-        this.ThreeIssuesWinnerCheckBox.Text = "Three Issues Winner";
-        this.ThreeIssuesWinnerCheckBox.UseVisualStyleBackColor = true;
-        this.ThreeIssuesWinnerCheckBox.CheckedChanged += new System.EventHandler(this.ThreeIssuesWinnerCheckBox_CheckedChanged);
-        // 
-        // TwoIssuesWinnerCheckBox
-        // 
-        this.TwoIssuesWinnerCheckBox.AutoSize = true;
-        this.TwoIssuesWinnerCheckBox.Checked = true;
-        this.TwoIssuesWinnerCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.TwoIssuesWinnerCheckBox.Location = new System.Drawing.Point(44, 40);
-        this.TwoIssuesWinnerCheckBox.Name = "TwoIssuesWinnerCheckBox";
-        this.TwoIssuesWinnerCheckBox.Size = new System.Drawing.Size(149, 21);
-        this.TwoIssuesWinnerCheckBox.TabIndex = 5;
-        this.TwoIssuesWinnerCheckBox.Text = "Two Issues Winner";
-        this.TwoIssuesWinnerCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // WinnerWithGoalDifferenceCheckBox
-        // 
-        this.WinnerWithGoalDifferenceCheckBox.AutoSize = true;
-        this.WinnerWithGoalDifferenceCheckBox.Checked = true;
-        this.WinnerWithGoalDifferenceCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.WinnerWithGoalDifferenceCheckBox.Location = new System.Drawing.Point(234, 12);
-        this.WinnerWithGoalDifferenceCheckBox.Name = "WinnerWithGoalDifferenceCheckBox";
-        this.WinnerWithGoalDifferenceCheckBox.Size = new System.Drawing.Size(210, 21);
-        this.WinnerWithGoalDifferenceCheckBox.TabIndex = 7;
-        this.WinnerWithGoalDifferenceCheckBox.Text = "Winner With Goal Difference";
-        this.WinnerWithGoalDifferenceCheckBox.UseVisualStyleBackColor = true;
-        this.WinnerWithGoalDifferenceCheckBox.CheckedChanged += new System.EventHandler(this.WinnerWithGoalDifferenceCheckBox_CheckedChanged);
-        // 
-        // NumberOfGoalsCheckBox
-        // 
-        this.NumberOfGoalsCheckBox.AutoSize = true;
-        this.NumberOfGoalsCheckBox.Checked = true;
-        this.NumberOfGoalsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.NumberOfGoalsCheckBox.Location = new System.Drawing.Point(44, 68);
-        this.NumberOfGoalsCheckBox.Name = "NumberOfGoalsCheckBox";
-        this.NumberOfGoalsCheckBox.Size = new System.Drawing.Size(140, 21);
-        this.NumberOfGoalsCheckBox.TabIndex = 6;
-        this.NumberOfGoalsCheckBox.Text = "Number Of Goals";
-        this.NumberOfGoalsCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // MostMinutesOfPenaltyCheckBox
-        // 
-        this.MostMinutesOfPenaltyCheckBox.AutoSize = true;
-        this.MostMinutesOfPenaltyCheckBox.Checked = true;
-        this.MostMinutesOfPenaltyCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.MostMinutesOfPenaltyCheckBox.Location = new System.Drawing.Point(461, 40);
-        this.MostMinutesOfPenaltyCheckBox.Name = "MostMinutesOfPenaltyCheckBox";
-        this.MostMinutesOfPenaltyCheckBox.Size = new System.Drawing.Size(183, 21);
-        this.MostMinutesOfPenaltyCheckBox.TabIndex = 11;
-        this.MostMinutesOfPenaltyCheckBox.Text = "Most Minutes Of Penalty";
-        this.MostMinutesOfPenaltyCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // ShotOnGoalCheckBox
-        // 
-        this.ShotOnGoalCheckBox.AutoSize = true;
-        this.ShotOnGoalCheckBox.Checked = true;
-        this.ShotOnGoalCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.ShotOnGoalCheckBox.Location = new System.Drawing.Point(461, 12);
-        this.ShotOnGoalCheckBox.Name = "ShotOnGoalCheckBox";
-        this.ShotOnGoalCheckBox.Size = new System.Drawing.Size(123, 21);
-        this.ShotOnGoalCheckBox.TabIndex = 10;
-        this.ShotOnGoalCheckBox.Text = "Shots On Goal";
-        this.ShotOnGoalCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // YesOrNoCheckBox
-        // 
-        this.YesOrNoCheckBox.AutoSize = true;
-        this.YesOrNoCheckBox.Checked = true;
-        this.YesOrNoCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.YesOrNoCheckBox.Location = new System.Drawing.Point(234, 68);
-        this.YesOrNoCheckBox.Name = "YesOrNoCheckBox";
-        this.YesOrNoCheckBox.Size = new System.Drawing.Size(96, 21);
-        this.YesOrNoCheckBox.TabIndex = 9;
-        this.YesOrNoCheckBox.Text = "Yes Or No";
-        this.YesOrNoCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // PlayerDuelCheckBox
-        // 
-        this.PlayerDuelCheckBox.AutoSize = true;
-        this.PlayerDuelCheckBox.Checked = true;
-        this.PlayerDuelCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.PlayerDuelCheckBox.Location = new System.Drawing.Point(234, 40);
-        this.PlayerDuelCheckBox.Name = "PlayerDuelCheckBox";
-        this.PlayerDuelCheckBox.Size = new System.Drawing.Size(128, 21);
-        this.PlayerDuelCheckBox.TabIndex = 8;
-        this.PlayerDuelCheckBox.Text = "Player Duel Bet";
-        this.PlayerDuelCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // TeamWithMoreHitsCheckBox
-        // 
-        this.TeamWithMoreHitsCheckBox.AutoSize = true;
-        this.TeamWithMoreHitsCheckBox.Checked = true;
-        this.TeamWithMoreHitsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.TeamWithMoreHitsCheckBox.Location = new System.Drawing.Point(461, 68);
-        this.TeamWithMoreHitsCheckBox.Name = "TeamWithMoreHitsCheckBox";
-        this.TeamWithMoreHitsCheckBox.Size = new System.Drawing.Size(162, 21);
-        this.TeamWithMoreHitsCheckBox.TabIndex = 12;
-        this.TeamWithMoreHitsCheckBox.Text = "Team With More Hits";
-        this.TeamWithMoreHitsCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // FirstGoalCheckBox
-        // 
-        this.FirstGoalCheckBox.AutoSize = true;
-        this.FirstGoalCheckBox.Checked = true;
-        this.FirstGoalCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.FirstGoalCheckBox.Location = new System.Drawing.Point(666, 12);
-        this.FirstGoalCheckBox.Name = "FirstGoalCheckBox";
-        this.FirstGoalCheckBox.Size = new System.Drawing.Size(91, 21);
-        this.FirstGoalCheckBox.TabIndex = 13;
-        this.FirstGoalCheckBox.Text = "First Goal";
-        this.FirstGoalCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // ExactScoreCheckBox
-        // 
-        this.ExactScoreCheckBox.AutoSize = true;
-        this.ExactScoreCheckBox.Checked = true;
-        this.ExactScoreCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.ExactScoreCheckBox.Location = new System.Drawing.Point(666, 40);
-        this.ExactScoreCheckBox.Name = "ExactScoreCheckBox";
-        this.ExactScoreCheckBox.Size = new System.Drawing.Size(105, 21);
-        this.ExactScoreCheckBox.TabIndex = 14;
-        this.ExactScoreCheckBox.Text = "Exact Score";
-        this.ExactScoreCheckBox.UseVisualStyleBackColor = true;
         // 
         // pictureBox1
         // 
@@ -295,7 +160,7 @@
         // 
         this.listBox1.FormattingEnabled = true;
         this.listBox1.ItemHeight = 16;
-        this.listBox1.Location = new System.Drawing.Point(44, 161);
+        this.listBox1.Location = new System.Drawing.Point(44, 64);
         this.listBox1.Name = "listBox1";
         this.listBox1.Size = new System.Drawing.Size(246, 260);
         this.listBox1.TabIndex = 19;
@@ -887,90 +752,217 @@
         // 
         this.AvailableBetList.FormattingEnabled = true;
         this.AvailableBetList.ItemHeight = 16;
-        this.AvailableBetList.Location = new System.Drawing.Point(360, 161);
+        this.AvailableBetList.Location = new System.Drawing.Point(360, 64);
         this.AvailableBetList.Name = "AvailableBetList";
         this.AvailableBetList.Size = new System.Drawing.Size(246, 260);
         this.AvailableBetList.TabIndex = 86;
-        this.AvailableBetList.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
+        this.AvailableBetList.SelectedIndexChanged += new System.EventHandler(this.AvailableBetList_SelectedIndexChanged);
         // 
         // BetsAvailableStr
         // 
         this.BetsAvailableStr.AutoSize = true;
-        this.BetsAvailableStr.Location = new System.Drawing.Point(357, 136);
+        this.BetsAvailableStr.Location = new System.Drawing.Point(357, 39);
         this.BetsAvailableStr.Name = "BetsAvailableStr";
         this.BetsAvailableStr.Size = new System.Drawing.Size(97, 17);
         this.BetsAvailableStr.TabIndex = 87;
         this.BetsAvailableStr.Text = "Bets Available";
         // 
-        // GainMarginCheckBox
-        // 
-        this.GainMarginCheckBox.AutoSize = true;
-        this.GainMarginCheckBox.Checked = true;
-        this.GainMarginCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-        this.GainMarginCheckBox.Location = new System.Drawing.Point(666, 68);
-        this.GainMarginCheckBox.Name = "GainMarginCheckBox";
-        this.GainMarginCheckBox.Size = new System.Drawing.Size(107, 21);
-        this.GainMarginCheckBox.TabIndex = 89;
-        this.GainMarginCheckBox.Text = "Gain Margin";
-        this.GainMarginCheckBox.UseVisualStyleBackColor = true;
-        // 
-        // LogWindow
-        // 
-        this.LogWindow.Location = new System.Drawing.Point(44, 589);
-        this.LogWindow.Name = "LogWindow";
-        this.LogWindow.Size = new System.Drawing.Size(562, 107);
-        this.LogWindow.TabIndex = 90;
-        this.LogWindow.Text = "";
-        // 
         // OddsLbl
         // 
         this.OddsLbl.AutoSize = true;
-        this.OddsLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.OddsLbl.Location = new System.Drawing.Point(73, 434);
+        this.OddsLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.OddsLbl.Location = new System.Drawing.Point(61, 334);
         this.OddsLbl.Name = "OddsLbl";
-        this.OddsLbl.Size = new System.Drawing.Size(155, 46);
+        this.OddsLbl.Size = new System.Drawing.Size(90, 29);
         this.OddsLbl.TabIndex = 91;
         this.OddsLbl.Text = "Odds : ";
         // 
         // Odd
         // 
         this.Odd.AutoSize = true;
-        this.Odd.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.Odd.Location = new System.Drawing.Point(273, 434);
+        this.Odd.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.Odd.Location = new System.Drawing.Point(169, 334);
         this.Odd.Name = "Odd";
-        this.Odd.Size = new System.Drawing.Size(0, 46);
+        this.Odd.Size = new System.Drawing.Size(0, 29);
         this.Odd.TabIndex = 92;
         // 
         // Pid
         // 
         this.Pid.AutoSize = true;
-        this.Pid.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.Pid.Location = new System.Drawing.Point(273, 510);
+        this.Pid.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.Pid.Location = new System.Drawing.Point(169, 378);
         this.Pid.Name = "Pid";
-        this.Pid.Size = new System.Drawing.Size(0, 46);
+        this.Pid.Size = new System.Drawing.Size(0, 29);
         this.Pid.TabIndex = 94;
         // 
         // label4
         // 
         this.label4.AutoSize = true;
-        this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.label4.Location = new System.Drawing.Point(73, 510);
+        this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.label4.Location = new System.Drawing.Point(81, 378);
         this.label4.Name = "label4";
-        this.label4.Size = new System.Drawing.Size(125, 46);
+        this.label4.Size = new System.Drawing.Size(70, 29);
         this.label4.TabIndex = 95;
         this.label4.Text = "PID : ";
+        // 
+        // Prob
+        // 
+        this.Prob.AutoSize = true;
+        this.Prob.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.Prob.Location = new System.Drawing.Point(525, 382);
+        this.Prob.Name = "Prob";
+        this.Prob.Size = new System.Drawing.Size(19, 29);
+        this.Prob.TabIndex = 96;
+        this.Prob.Text = " ";
+        // 
+        // shapeContainer1
+        // 
+        this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
+        this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+        this.shapeContainer1.Name = "shapeContainer1";
+        this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape1});
+        this.shapeContainer1.Size = new System.Drawing.Size(1376, 721);
+        this.shapeContainer1.TabIndex = 97;
+        this.shapeContainer1.TabStop = false;
+        // 
+        // lineShape1
+        // 
+        this.lineShape1.Name = "lineShape1";
+        this.lineShape1.X1 = 64;
+        this.lineShape1.X2 = 581;
+        this.lineShape1.Y1 = 421;
+        this.lineShape1.Y2 = 421;
+        // 
+        // FilterLbl
+        // 
+        this.FilterLbl.AutoSize = true;
+        this.FilterLbl.Location = new System.Drawing.Point(66, 431);
+        this.FilterLbl.Name = "FilterLbl";
+        this.FilterLbl.Size = new System.Drawing.Size(39, 17);
+        this.FilterLbl.TabIndex = 98;
+        this.FilterLbl.Text = "Filter";
+        // 
+        // FilterListBox
+        // 
+        this.FilterListBox.FormattingEnabled = true;
+        this.FilterListBox.Location = new System.Drawing.Point(69, 468);
+        this.FilterListBox.Name = "FilterListBox";
+        this.FilterListBox.Size = new System.Drawing.Size(136, 225);
+        this.FilterListBox.TabIndex = 99;
+        // 
+        // FilterUpDown
+        // 
+        this.FilterUpDown.Location = new System.Drawing.Point(473, 468);
+        this.FilterUpDown.Name = "FilterUpDown";
+        this.FilterUpDown.Size = new System.Drawing.Size(84, 22);
+        this.FilterUpDown.TabIndex = 100;
+        this.FilterUpDown.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+        this.FilterUpDown.ValueChanged += new System.EventHandler(this.FilterUpDown_ValueChanged);
+        // 
+        // FilterSentence1
+        // 
+        this.FilterSentence1.AutoSize = true;
+        this.FilterSentence1.Location = new System.Drawing.Point(233, 431);
+        this.FilterSentence1.Name = "FilterSentence1";
+        this.FilterSentence1.Size = new System.Drawing.Size(102, 17);
+        this.FilterSentence1.TabIndex = 101;
+        this.FilterSentence1.Text = "Filter bets with ";
+        this.FilterSentence1.Click += new System.EventHandler(this.FilterSentence_Click);
+        // 
+        // Unit
+        // 
+        this.Unit.AutoSize = true;
+        this.Unit.Location = new System.Drawing.Point(563, 468);
+        this.Unit.Name = "Unit";
+        this.Unit.Size = new System.Drawing.Size(20, 17);
+        this.Unit.TabIndex = 102;
+        this.Unit.Text = "%";
+        // 
+        // FilterFactor
+        // 
+        this.FilterFactor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+        this.FilterFactor.Items.AddRange(new object[] {
+            "a happening probability over",
+            "odds over",
+            "a happening probability under",
+            "odds under",
+            "exact PID",
+            "type of bet : "});
+        this.FilterFactor.Location = new System.Drawing.Point(236, 466);
+        this.FilterFactor.Name = "FilterFactor";
+        this.FilterFactor.Size = new System.Drawing.Size(231, 24);
+        this.FilterFactor.TabIndex = 103;
+        this.FilterFactor.SelectedIndexChanged += new System.EventHandler(this.FilterFactor_SelectedIndexChanged);
+        // 
+        // FilterItems
+        // 
+        this.FilterItems.FormattingEnabled = true;
+        this.FilterItems.ItemHeight = 16;
+        this.FilterItems.Location = new System.Drawing.Point(236, 512);
+        this.FilterItems.Name = "FilterItems";
+        this.FilterItems.Size = new System.Drawing.Size(347, 180);
+        this.FilterItems.TabIndex = 104;
+        this.FilterItems.SelectedIndexChanged += new System.EventHandler(this.FilterItems_SelectedIndexChanged);
+        // 
+        // ComputeProb
+        // 
+        this.ComputeProb.Enabled = false;
+        this.ComputeProb.Location = new System.Drawing.Point(636, 82);
+        this.ComputeProb.Margin = new System.Windows.Forms.Padding(4);
+        this.ComputeProb.Name = "ComputeProb";
+        this.ComputeProb.Size = new System.Drawing.Size(100, 28);
+        this.ComputeProb.TabIndex = 105;
+        this.ComputeProb.Text = "RecomputeProb";
+        this.ComputeProb.UseVisualStyleBackColor = true;
+        this.ComputeProb.Click += new System.EventHandler(this.ComputeProb_Click);
+        // 
+        // FilterBetTypeDropDown
+        // 
+        this.FilterBetTypeDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+        this.FilterBetTypeDropDown.Items.AddRange(new object[] {
+            "ThreeIssuesWinnerBet",
+            "TwoIssuesWinnerBet",
+            "NumberOfGoalsBet",
+            "WinnerWithGoalDifferenceBet",
+            "PlayerDuelBet",
+            "YesOrNoBet",
+            "ShotsOnGoalBet",
+            "MostMinutesOfPenaltyBet",
+            "TeamWithMoreHitsBet",
+            "FirstGoalBet",
+            "GainMarginBet",
+            "ExactScoreBet"});
+        this.FilterBetTypeDropDown.Location = new System.Drawing.Point(473, 465);
+        this.FilterBetTypeDropDown.Name = "FilterBetTypeDropDown";
+        this.FilterBetTypeDropDown.Size = new System.Drawing.Size(110, 24);
+        this.FilterBetTypeDropDown.TabIndex = 106;
+        this.FilterBetTypeDropDown.Visible = false;
+        this.FilterBetTypeDropDown.SelectedIndexChanged += new System.EventHandler(this.FilterBetTypeDropDown_SelectedIndexChanged);
         // 
         // Form1
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(1376, 800);
+        this.ClientSize = new System.Drawing.Size(1376, 721);
+        this.Controls.Add(this.FilterBetTypeDropDown);
+        this.Controls.Add(this.ComputeProb);
+        this.Controls.Add(this.FilterItems);
+        this.Controls.Add(this.FilterFactor);
+        this.Controls.Add(this.Unit);
+        this.Controls.Add(this.FilterSentence1);
+        this.Controls.Add(this.FilterUpDown);
+        this.Controls.Add(this.FilterListBox);
+        this.Controls.Add(this.FilterLbl);
+        this.Controls.Add(this.Prob);
         this.Controls.Add(this.label4);
         this.Controls.Add(this.Pid);
         this.Controls.Add(this.Odd);
         this.Controls.Add(this.OddsLbl);
-        this.Controls.Add(this.LogWindow);
-        this.Controls.Add(this.GainMarginCheckBox);
         this.Controls.Add(this.BetsAvailableStr);
         this.Controls.Add(this.AvailableBetList);
         this.Controls.Add(this.WPLA2AwayLbl);
@@ -1038,19 +1030,9 @@
         this.Controls.Add(this.listBox1);
         this.Controls.Add(this.pictureBox2);
         this.Controls.Add(this.pictureBox1);
-        this.Controls.Add(this.ExactScoreCheckBox);
-        this.Controls.Add(this.FirstGoalCheckBox);
-        this.Controls.Add(this.TeamWithMoreHitsCheckBox);
-        this.Controls.Add(this.MostMinutesOfPenaltyCheckBox);
-        this.Controls.Add(this.ShotOnGoalCheckBox);
-        this.Controls.Add(this.YesOrNoCheckBox);
-        this.Controls.Add(this.PlayerDuelCheckBox);
-        this.Controls.Add(this.WinnerWithGoalDifferenceCheckBox);
-        this.Controls.Add(this.NumberOfGoalsCheckBox);
-        this.Controls.Add(this.TwoIssuesWinnerCheckBox);
-        this.Controls.Add(this.ThreeIssuesWinnerCheckBox);
         this.Controls.Add(this.GamesAvailable);
         this.Controls.Add(this.buttonRefresh);
+        this.Controls.Add(this.shapeContainer1);
         this.Margin = new System.Windows.Forms.Padding(4);
         this.Name = "Form1";
         this.Text = "NHL Better - - Make NHL Better";
@@ -1058,6 +1040,7 @@
         this.Load += new System.EventHandler(this.Form1_Load);
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+        ((System.ComponentModel.ISupportInitialize)(this.FilterUpDown)).EndInit();
         this.ResumeLayout(false);
         this.PerformLayout();
 
@@ -1067,17 +1050,6 @@
 
     private System.Windows.Forms.Button buttonRefresh;
     private System.Windows.Forms.Label GamesAvailable;
-    private System.Windows.Forms.CheckBox ThreeIssuesWinnerCheckBox;
-    private System.Windows.Forms.CheckBox TwoIssuesWinnerCheckBox;
-    private System.Windows.Forms.CheckBox WinnerWithGoalDifferenceCheckBox;
-    private System.Windows.Forms.CheckBox NumberOfGoalsCheckBox;
-    private System.Windows.Forms.CheckBox MostMinutesOfPenaltyCheckBox;
-    private System.Windows.Forms.CheckBox ShotOnGoalCheckBox;
-    private System.Windows.Forms.CheckBox YesOrNoCheckBox;
-    private System.Windows.Forms.CheckBox PlayerDuelCheckBox;
-    private System.Windows.Forms.CheckBox TeamWithMoreHitsCheckBox;
-    private System.Windows.Forms.CheckBox FirstGoalCheckBox;
-    private System.Windows.Forms.CheckBox ExactScoreCheckBox;
     private System.Windows.Forms.PictureBox pictureBox1;
     private System.Windows.Forms.PictureBox pictureBox2;
     private System.Windows.Forms.ListBox listBox1;
@@ -1145,12 +1117,22 @@
     private System.Windows.Forms.Label WPLA2Lbl;
     private System.Windows.Forms.ListBox AvailableBetList;
     private System.Windows.Forms.Label BetsAvailableStr;
-    private System.Windows.Forms.CheckBox GainMarginCheckBox;
-    private System.Windows.Forms.RichTextBox LogWindow;
     private System.Windows.Forms.Label OddsLbl;
     private System.Windows.Forms.Label Odd;
     private System.Windows.Forms.Label Pid;
     private System.Windows.Forms.Label label4;
+    private System.Windows.Forms.Label Prob;
+    private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+    private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+    private System.Windows.Forms.Label FilterLbl;
+    private System.Windows.Forms.CheckedListBox FilterListBox;
+    private System.Windows.Forms.NumericUpDown FilterUpDown;
+    private System.Windows.Forms.Label FilterSentence1;
+    private System.Windows.Forms.Label Unit;
+    private System.Windows.Forms.ComboBox FilterFactor;
+    private System.Windows.Forms.ListBox FilterItems;
+    private System.Windows.Forms.Button ComputeProb;
+    private System.Windows.Forms.ComboBox FilterBetTypeDropDown;
   }
 }
 

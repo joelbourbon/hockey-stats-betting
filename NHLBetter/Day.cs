@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
@@ -11,17 +12,24 @@ namespace NHLBetter
     {
         public List<Match> MatchList = new List<Match>();
         public List<Bet> BetList = new List<Bet>();
-        private bool montrealPlaysToday = false;
+        private int parsingMethod = 0;
         private int[] BetsOfEachType = new int[12];
+        private string DateTimeToday = "";
+        private string DateTimeTomorrow = "";
         
         //RefreshData
         //This method refreshes data from NHL.com and miseojeu.com
         public void RefreshData()
         {
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.AppStarting;
 
-            MatchList.Clear();
-            BetList.Clear();
+            DateTimeToday = System.DateTime.Now.Date.ToString().Remove(10);
+            DateTimeTomorrow = System.DateTime.Now.Date.AddDays(1).ToString().Remove(10);
+
+            //Clears the lists if they exist
+            ClearLists();
+
+            parsingMethod = 0;
 
             MatchList = GetListOfGamesToday("http://www.nhl.com/ice/schedulebyday.htm#?navid=nav-sch-today");
             BetList = GetListOfBetsToday("https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2");
@@ -139,7 +147,7 @@ namespace NHLBetter
             return timeOfGame + offSet;
         }
 
-        private List<string> StringSeparator(string stringToSeparate, string separatorFrom, string separatorTo)
+        private static List<string> StringSeparator(string stringToSeparate, string separatorFrom, string separatorTo)
         {
             if (separatorFrom != separatorTo && separatorFrom != "" && separatorTo != "" &&
                 stringToSeparate.Contains(separatorFrom) && stringToSeparate.Contains(separatorTo))
@@ -180,13 +188,13 @@ namespace NHLBetter
             return null;
         }
 
-        private string FixHtmlStrForShotsOnGoal(string htmlStr)
+        private static string FixHtmlStrForShotsOnGoal(string htmlStr)
         {
             var startIndex = 0;
-            while (htmlStr.IndexOf("Total de lancers au but dans le match pour ", startIndex) != -1)
+            while (htmlStr.IndexOf("Total shots on goal in the match for ", startIndex) != -1)
             {
-                var index = htmlStr.IndexOf("Total de lancers au but dans le match pour ", startIndex) + "Total de lancers au but dans le match pour ".Length;
-                var endIndex = htmlStr.IndexOf(" (excluant TB)", index);
+                var index = htmlStr.IndexOf("Total shots on goal in the match for ", startIndex) + "Total shots on goal in the match for ".Length;
+                var endIndex = htmlStr.IndexOf(" (excluding SO)", index);
                 startIndex = index;
                 var teamStr = "";
                 
@@ -212,8 +220,6 @@ namespace NHLBetter
             var wc = new WebClient();
             var betStrList = new List<string>();
             var dateStrList = new List<string>();
-            var boutonTypeSelectedList = new List<string>();
-
             var rawData = Encoding.ASCII.GetString(wc.DownloadData(adress));
             htmlDoc.write(rawData);
             var htmlStr = htmlDoc.body.innerHTML;
@@ -221,20 +227,22 @@ namespace NHLBetter
             //Todo Find a better fix for shots on goal
             htmlStr = FixHtmlStrForShotsOnGoal(htmlStr);
 
-            //If Mtl plays, htmlStr is a bit different
-            montrealPlaysToday = htmlStr.Contains("Montr?al");
-            
-            boutonTypeSelectedList = StringSeparator(htmlStr, "boutonTypeSelected", "<TD class=");
+            //Gets boutonTypeSelected list of strings
+            var boutonTypeSelectedList = StringSeparator(htmlStr, "boutonTypeSelected", "<TD class=");
 
+            //DEBUG
             for (var i = 0; i < 12; i++)
                 BetsOfEachType[i] = 0;
-            
-            foreach(var boutonStr in boutonTypeSelectedList)
+
+            foreach (var boutonStr in boutonTypeSelectedList)
             {
                 //This list is created in function of the bets we are supposed to find in the source code
-                betList.AddRange((IEnumerable<Bet>)MakeBetListForType(boutonStr));
+                betList.AddRange((IEnumerable<Bet>) MakeBetListForType(boutonStr));
             }
-            
+
+            //Memory management
+            boutonTypeSelectedList.Clear();
+
             //This list is created in function of the bet we actually find in the source code
             betStrList.AddRange(StringSeparator(htmlStr, "<TD id=", "</SPAN> <SPAN>"));
 
@@ -246,63 +254,82 @@ namespace NHLBetter
                 {
                     BetsOfEachType[i] += BetsOfEachType[i - 1];
                 }
-                montrealPlaysToday = !htmlStr.Contains("Montr?al");
+
+                parsingMethod++;
+                if (parsingMethod > 1)
+                    return null;
 
                 // Recursive call if the counts are not equal, we try parsing htmlStr in a different way
-                betList = GetListOfBetsToday("https://miseojeu.lotoquebec.com/fr/offre-de-paris/hockey/nationale/matchs?idAct=2");
+                betList =
+                    GetListOfBetsToday(
+                        "https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2");
                 return betList;
             }
-            else
-            {
-                //Lists contain the same number of bets.
-                for (var i = 0; i < betList.Count; i++)
-                {
-                    betList[i].iniString = betStrList[i];
-                    betList[i].Initialize();
-                }
-                for (var i = 0; i < betList.Count; i++)
-                {
-                    if (betList[i].GetBetType() == Bet.BetType.ExactScoreBet && betList[i].teamCity == "")
-                    {
-                        betList[i].teamCity = betList[i - 1].teamCity;
-                    }
-                    else if (true)
-                    {
-                        //other special conditions
-                    }
 
-                    // Fix to get the game correctly with the team of the bet
+            //Lists contain the same number of bets.
+            for (var i = 0; i < betList.Count; i++)
+            {
+                betList[i].iniString = betStrList[i].Remove(0, "<TD id=".Length);
+                betList[i].Initialize();
+            }
+            for (var i = 0; i < betList.Count; i++)
+            {
+                if (betList[i].GetBetType() == Bet.BetType.ExactScoreBet && betList[i].teamCity == "")
+                {
+                    betList[i].teamCity = betList[i - 1].teamCity;
+                }
+                else if (true)
+                {
+                    //other special conditions
+                }
+
+                // Fix to get the game correctly with the team of the bet
+                if (betList[i].isTie)
+                {
+                    betList[i].teamCity = betList[i].GetBetType() == Bet.BetType.ExactScoreBet ? 
+                                            betList[i - 1].teamCity : betList[i + 1].teamCity;
+                }
+
+                // These bets are not managed yet
+                if (betList[i].GetBetType() != Bet.BetType.PlayerDuelBet &&
+                    betList[i].GetBetType() != Bet.BetType.YesOrNoBet &&
+                    betList[i].GetBetType() != Bet.BetType.FirstGoalBet)
+                {
+
+                    betList[i].AssociateMatch(MatchList);
+
+                }
+
+                if (betList[i].gameIsToday &&
+                    betList[i].GetBetType() != Bet.BetType.PlayerDuelBet &&
+                    //Does not manage the player duel bets... YET!  //
+                    betList[i].GetBetType() != Bet.BetType.YesOrNoBet &&
+                    //Does not manage the yes or no bets... YET!   <<AssociateTeam() would crash
+                    betList[i].GetBetType() != Bet.BetType.FirstGoalBet)
+                    //Does not manage the first goal bets... YET!   \\
+                {
+                    betList[i].AssociateTeam();
                     if (betList[i].isTie)
                     {
-                        var a = betList[i].GetBetType() == Bet.BetType.ExactScoreBet
-                                ? betList[i].teamCity = betList[i - 1].teamCity: 
-                                  betList[i].teamCity = betList[i + 1].teamCity;
+                        betList[i].teamCity = "Tie game";
                     }
-                    
-                    // These bets are not managed yet
-                    if (betList[i].GetBetType() != Bet.BetType.PlayerDuelBet && 
-                        betList[i].GetBetType() != Bet.BetType.YesOrNoBet && 
-                        betList[i].GetBetType() != Bet.BetType.FirstGoalBet)
+                    if (betList[i].TeamBetOn != null)
                     {
-
-                        betList[i].AssociateMatch(MatchList);
-                        
-                    }               
-                                                             
-                    if (betList[i].GetAssociatedMatch() != null && betList[i].gameIsToday &&
-                        betList[i].GetBetType() != Bet.BetType.PlayerDuelBet && //Does not manage the player duel bets... YET!  //
-                        betList[i].GetBetType() != Bet.BetType.YesOrNoBet &&    //Does not manage the yes or no bets... YET!   <<AssociateTeam() would crash
-                        betList[i].GetBetType() != Bet.BetType.FirstGoalBet)    //Does not manage the first goal bets... YET!   \\
-                    {
-                        betList[i].AssociateTeam();
-                        if (betList[i].isTie)
-                        {
-                            betList[i].teamCity = "Tie game";
-                        }
+                        betList[i].Probs();
                     }
                 }
             }
-            
+
+            for(var i = 0 ; i < betList.Count ; i++)
+            {
+                var betListCount = betList.Count;
+                var nextBetListCount = betList[i].ManageBetList(betList).Count;
+                var countDiff = betListCount - nextBetListCount;
+
+                betList = betList[i].ManageBetList(betList);
+                if (countDiff != 0)
+                    i--;
+            }
 
             return betList;
         }
@@ -331,7 +358,7 @@ namespace NHLBetter
                 BetType = Bet.BetType.ExactScoreBet;
                 multiplicator = 37;
             }
-            else if (boutonStr.Contains("Match winner - 3 way"))
+            else if (boutonStr.Contains("Match winner - 3 way") && !boutonStr.Contains("Total goals"))
             {
                 BetType = Bet.BetType.ThreeIssuesWinnerBet;
                 multiplicator = 3;
@@ -371,7 +398,7 @@ namespace NHLBetter
                 BetType = Bet.BetType.MostMinutesOfPenaltyBet;
                 multiplicator = 3;
             }
-            else if (boutonStr.Contains("Hits"))
+            else if (boutonStr.Contains("Most hits"))
             {
                 BetType = Bet.BetType.TeamWithMoreHitsBet;
                 multiplicator = 2;
@@ -394,20 +421,17 @@ namespace NHLBetter
             var nbBets = 0;
 
             // The number of bets for shots on goal is function of Montreal playing...
-            if (montrealPlaysToday && BetType == Bet.BetType.ShotsOnGoalBet)
+            if (parsingMethod == 1 && BetType == Bet.BetType.ShotsOnGoalBet)
                 nbBets = (nbFields- 2) * multiplicator + 10;
             else
                 nbBets = nbFields*multiplicator;
 
-
-            //(BetType == Bet.BetType.ShotsOnGoalBet ? ((nb - 2) * multiplicator + 10): nb*multiplicator)
             for (var i = 0; i < nbBets ; i++)
             {
                 switch (BetType)
                 {
                     case Bet.BetType.ThreeIssuesWinnerBet:
                         betList.Add(new ThreeIssuesWinner());
-                        
                         BetsOfEachType[0]++;
                         break;
                     case Bet.BetType.TwoIssuesWinnerBet:
@@ -493,12 +517,13 @@ namespace NHLBetter
             return MOJCity.ToUpper();
         }
 
-        void CalculateProbabilities(List<Bet.BetType> betTypeToDisplayList)
+        public void ClearLists()
         {
-            foreach(var betTypeToDisplay in betTypeToDisplayList)
-            {
-                var betList = new List<Bet>();
-            }
+            if(MatchList != null)
+                MatchList.Clear();
+            
+            if(BetList != null)
+                BetList.Clear();
         }
     }
 }

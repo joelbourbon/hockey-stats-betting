@@ -1,4 +1,6 @@
-﻿namespace NHLBetter
+﻿using System.Collections.Generic;
+
+namespace NHLBetter
 {
 
 public class ExactResult:Bet
@@ -10,6 +12,7 @@ public class ExactResult:Bet
     public ExactResult()
     {
         TypeOfBet = Bet.BetType.ExactScoreBet;
+        multiplicator = 37;
     }
 
     //Destructor
@@ -28,6 +31,7 @@ public class ExactResult:Bet
 
         IniGetOdd();
         IniGetPid();
+        IniGetId();
 
         var index = iniString.IndexOf('?');
         
@@ -77,6 +81,11 @@ public class ExactResult:Bet
         AddAllLabelsToUsedFields("GamesPlayedLbl");
         AddAllLabelsToUsedFields("WinsLbl");
         AddAllLabelsToUsedFields("LossesLbl");
+    }
+
+    public override List<Bet> ManageBetList(List<Bet> betList)
+    {
+        return betList;
     }
 
 

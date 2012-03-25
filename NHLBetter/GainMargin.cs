@@ -1,4 +1,6 @@
-﻿namespace NHLBetter
+﻿using System.Collections.Generic;
+
+namespace NHLBetter
 {
 
     public class GainMargin : Bet
@@ -9,6 +11,7 @@
         public GainMargin()
         {
             TypeOfBet = Bet.BetType.GainMarginBet;
+            multiplicator = 8;
         }
 
         ~GainMargin()
@@ -17,10 +20,7 @@
 
         override public void Initialize()
         {
-            IniGetTeam();
-            IniGetOdd();
-            IniGetPid();
-
+            base.Initialize();
             isMoreThan = iniString.Contains("ou plus");
 
             var numberOfGoalsStr = "";
@@ -37,6 +37,11 @@
         public override string ToString()
         {
             return teamCity + " wins by " + numberOfGoals + " goals" + (isMoreThan ? " or more" : "");
+        }
+
+        public override List<Bet> ManageBetList(List<Bet> betList)
+        {
+            return betList;
         }
     }
 }
