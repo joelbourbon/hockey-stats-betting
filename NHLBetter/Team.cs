@@ -33,6 +33,7 @@ namespace NHLBetter
         public float OutshootingPercentage { get; private set; }
         public float OutShotPercentage { get; private set; }
         public float FaceOffWinningPercentage { get; private set; }
+        public string teamRawData { get; set; }
         public List<MatchOver> MatchOverList = new List<MatchOver>();
 
         // Constructeur privé
@@ -41,7 +42,7 @@ namespace NHLBetter
         }
 
         // Constructeur public
-        public Team(string abbreviation)
+        public Team(string abbreviation, bool isLoadCalled)
         {
             var wc = new WebClient();
             var ms = new HTMLDocument();
@@ -49,9 +50,11 @@ namespace NHLBetter
             var teamList = new List<Team>();
             var teamStrList = new List<string>();
             
-            var rawData =
-                Encoding.ASCII.GetString(
-                    wc.DownloadData("http://www.nhl.com/ice/teamstats.htm?season=20112012&gameType=2&viewName=summary"));
+            var rawData = isLoadCalled ? 
+                            teamRawData : 
+                            Encoding.ASCII.GetString(wc.DownloadData("http://www.nhl.com/ice/teamstats.htm?season=20112012&gameType=2&viewName=summary"));
+            teamRawData = rawData;
+
             htmlDoc.write(rawData);
             var htmlStr = htmlDoc.body.innerHTML;
 
@@ -67,8 +70,8 @@ namespace NHLBetter
             {
                 if (teamStr.IndexOf("rel=" + abbreviation + ">") != -1)
                 {
-                    this.FillTeamStats(RawDataToSeparatedStats(teamStr));
-                    this.LogoPath = "Logos\\" + abbreviation + ".png";
+                    FillTeamStats(RawDataToSeparatedStats(teamStr));
+                    LogoPath = "Logos\\" + abbreviation + ".png";
                 }
             }
 
