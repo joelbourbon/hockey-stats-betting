@@ -82,11 +82,6 @@ namespace NHLBetter
             betID = int.Parse(idStr);
         }
 
-        virtual protected void UsedFields()
-        {
-            AddAllLabelsToUsedFields("GamesPlayedLbl");
-        }
-
         public double GetOdd()
         {
             return Odd;
@@ -96,6 +91,14 @@ namespace NHLBetter
         public string GetPidString()
         {
             return Pid.ToString().Length == 5 ? Pid.ToString() : "0" + Pid;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        virtual protected void UsedFields()
+        {
+            AddAllLabelsToUsedFields("GamesPlayedLbl");
         }
 
         protected void AddAllLabelsToUsedFields(string GenericLbl)
@@ -118,7 +121,7 @@ namespace NHLBetter
                 teamCity += iniString[index++];
             }
 
-            // Bug fix
+            // Bug fix 'é' token is replaced by '?' token, so we replace it with 'e' token
             teamCity = teamCity.Replace('?', 'e');
         }
 
@@ -128,16 +131,19 @@ namespace NHLBetter
             var oddStr = "";
             
             var index = iniString.IndexOf("<BR>") + "<BR>".Length;
-            while(iniString[index] != '<')
+            while (iniString[index] != '<')
             {
                 //Double.Parse does not take dots... we change it for a comma
                 if (iniString[index] == '.')
-                {      
+                {
                     oddStr += ",";
-                    index++;
                 }
                 else
-                    oddStr += iniString[index++];
+                {
+                    oddStr += iniString[index];
+                }
+
+                index++;
             }
 
             Odd = double.Parse(oddStr);

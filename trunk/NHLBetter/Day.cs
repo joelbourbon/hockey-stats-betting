@@ -14,25 +14,23 @@ namespace NHLBetter
         public List<Bet> BetList = new List<Bet>();
         private int parsingMethod = 0;
         private int[] BetsOfEachType = new int[12];
-        private string DateTimeToday = "";
-        private string DateTimeTomorrow = "";
+        public string nhlRawData;
+        public string mojRawData;
         
         //RefreshData
         //This method refreshes data from NHL.com and miseojeu.com
         public void RefreshData()
         {
+            const bool isLoadCalled = false;
             Cursor.Current = Cursors.AppStarting;
-
-            DateTimeToday = System.DateTime.Now.Date.ToString().Remove(10);
-            DateTimeTomorrow = System.DateTime.Now.Date.AddDays(1).ToString().Remove(10);
-
+            
             //Clears the lists if they exist
             ClearLists();
 
             parsingMethod = 0;
 
-            MatchList = GetListOfGamesToday("http://www.nhl.com/ice/schedulebyday.htm#?navid=nav-sch-today");
-            BetList = GetListOfBetsToday("https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2");
+            MatchList = GetListOfGamesToday("http://www.nhl.com/ice/schedulebyday.htm#?navid=nav-sch-today", isLoadCalled);
+            BetList = GetListOfBetsToday("https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2", isLoadCalled);
             
             Cursor.Current = Cursors.Default;
         }
@@ -41,7 +39,7 @@ namespace NHLBetter
         // This method queries nhl.com to get games available today
         // Parameters : 
         // adress       The network adress to get source code from
-        private List<Match> GetListOfGamesToday(string adress)
+        public List<Match> GetListOfGamesToday(string adress , bool isLoadCalled)
         {
             var matchList = new List<Match>();
             var ms = new HTMLDocument();
@@ -49,7 +47,9 @@ namespace NHLBetter
             var wc = new WebClient();
             var matchStr = new List<string>();
 
-            var rawData = Encoding.ASCII.GetString(wc.DownloadData(adress));
+            var rawData = isLoadCalled ? nhlRawData : Encoding.ASCII.GetString(wc.DownloadData(adress));
+            nhlRawData = rawData;
+
             htmlDoc.write(rawData);
             var htmlStr = htmlDoc.body.innerHTML;
 
@@ -101,8 +101,8 @@ namespace NHLBetter
                 var timeToday = System.DateTime.Now.Hour;
 
                 // Creates Home team et Away Team
-                var awayTeam = new Team(awayTeamAbbreviation);
-                var homeTeam = new Team(homeTeamAbbreviation);
+                var awayTeam = new Team(awayTeamAbbreviation, false);
+                var homeTeam = new Team(homeTeamAbbreviation, false);
 
                 if (timeToday >= timeOfGame)
                     isBetOver = true;
@@ -212,7 +212,7 @@ namespace NHLBetter
             return htmlStr;
         }
 
-        private List<Bet> GetListOfBetsToday(string adress)
+        public List<Bet> GetListOfBetsToday(string adress, bool isLoadCalled)
         {
             var betList = new List<Bet>();
             var ms = new HTMLDocument();
@@ -220,7 +220,10 @@ namespace NHLBetter
             var wc = new WebClient();
             var betStrList = new List<string>();
             var dateStrList = new List<string>();
-            var rawData = Encoding.ASCII.GetString(wc.DownloadData(adress));
+
+            var rawData = isLoadCalled ? mojRawData : Encoding.ASCII.GetString(wc.DownloadData(adress));
+            mojRawData = rawData;
+
             htmlDoc.write(rawData);
             var htmlStr = htmlDoc.body.innerHTML;
 
@@ -262,7 +265,7 @@ namespace NHLBetter
                 // Recursive call if the counts are not equal, we try parsing htmlStr in a different way
                 betList =
                     GetListOfBetsToday(
-                        "https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2");
+                        "https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2", isLoadCalled);
                 return betList;
             }
 

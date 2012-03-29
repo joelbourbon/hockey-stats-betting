@@ -104,7 +104,6 @@
         this.Prob = new System.Windows.Forms.Label();
         this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
         this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-        this.FilterLbl = new System.Windows.Forms.Label();
         this.FilterListBox = new System.Windows.Forms.CheckedListBox();
         this.FilterUpDown = new System.Windows.Forms.NumericUpDown();
         this.FilterSentence1 = new System.Windows.Forms.Label();
@@ -113,14 +112,25 @@
         this.FilterItems = new System.Windows.Forms.ListBox();
         this.ComputeProb = new System.Windows.Forms.Button();
         this.FilterBetTypeDropDown = new System.Windows.Forms.ComboBox();
+        this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+        this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+        this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+        this.quitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+        this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+        this.progressBar1 = new System.Windows.Forms.ProgressBar();
+        this.ProgressLbl = new System.Windows.Forms.Label();
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.FilterUpDown)).BeginInit();
+        this.menuStrip1.SuspendLayout();
         this.SuspendLayout();
         // 
         // buttonRefresh
         // 
-        this.buttonRefresh.Location = new System.Drawing.Point(772, 82);
+        this.buttonRefresh.Location = new System.Drawing.Point(637, 64);
         this.buttonRefresh.Margin = new System.Windows.Forms.Padding(4);
         this.buttonRefresh.Name = "buttonRefresh";
         this.buttonRefresh.Size = new System.Drawing.Size(100, 28);
@@ -140,21 +150,19 @@
         // 
         // pictureBox1
         // 
-        this.pictureBox1.Location = new System.Drawing.Point(898, 58);
+        this.pictureBox1.Location = new System.Drawing.Point(912, 64);
         this.pictureBox1.Name = "pictureBox1";
         this.pictureBox1.Size = new System.Drawing.Size(146, 82);
         this.pictureBox1.TabIndex = 17;
         this.pictureBox1.TabStop = false;
-        this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
         // 
         // pictureBox2
         // 
-        this.pictureBox2.Location = new System.Drawing.Point(1140, 58);
+        this.pictureBox2.Location = new System.Drawing.Point(1126, 64);
         this.pictureBox2.Name = "pictureBox2";
         this.pictureBox2.Size = new System.Drawing.Size(145, 82);
         this.pictureBox2.TabIndex = 18;
         this.pictureBox2.TabStop = false;
-        this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
         // 
         // listBox1
         // 
@@ -169,214 +177,193 @@
         // GamesPlayedLbl
         // 
         this.GamesPlayedLbl.AutoSize = true;
-        this.GamesPlayedLbl.Location = new System.Drawing.Point(743, 161);
+        this.GamesPlayedLbl.Location = new System.Drawing.Point(773, 158);
         this.GamesPlayedLbl.Name = "GamesPlayedLbl";
         this.GamesPlayedLbl.Size = new System.Drawing.Size(100, 17);
         this.GamesPlayedLbl.TabIndex = 20;
         this.GamesPlayedLbl.Text = "Games Played";
-        this.GamesPlayedLbl.Click += new System.EventHandler(this.GamesPlayedLbl_Click);
         // 
         // WinsLbl
         // 
         this.WinsLbl.AutoSize = true;
-        this.WinsLbl.Location = new System.Drawing.Point(804, 215);
+        this.WinsLbl.Location = new System.Drawing.Point(834, 212);
         this.WinsLbl.Name = "WinsLbl";
         this.WinsLbl.Size = new System.Drawing.Size(39, 17);
         this.WinsLbl.TabIndex = 21;
         this.WinsLbl.Text = "Wins";
-        this.WinsLbl.Click += new System.EventHandler(this.WinsLbl_Click);
         // 
         // LossesLbl
         // 
         this.LossesLbl.AutoSize = true;
-        this.LossesLbl.Location = new System.Drawing.Point(790, 242);
+        this.LossesLbl.Location = new System.Drawing.Point(820, 239);
         this.LossesLbl.Name = "LossesLbl";
         this.LossesLbl.Size = new System.Drawing.Size(53, 17);
         this.LossesLbl.TabIndex = 22;
         this.LossesLbl.Text = "Losses";
-        this.LossesLbl.Click += new System.EventHandler(this.LossesLbl_Click);
         // 
         // PointPercentageLbl
         // 
         this.PointPercentageLbl.AutoSize = true;
-        this.PointPercentageLbl.Location = new System.Drawing.Point(787, 296);
+        this.PointPercentageLbl.Location = new System.Drawing.Point(817, 293);
         this.PointPercentageLbl.Name = "PointPercentageLbl";
         this.PointPercentageLbl.Size = new System.Drawing.Size(56, 17);
         this.PointPercentageLbl.TabIndex = 25;
         this.PointPercentageLbl.Text = "Point %";
-        this.PointPercentageLbl.Click += new System.EventHandler(this.PointPercentageLbl_Click);
         // 
         // OvertimeLossesLbl
         // 
         this.OvertimeLossesLbl.AutoSize = true;
-        this.OvertimeLossesLbl.Location = new System.Drawing.Point(729, 269);
+        this.OvertimeLossesLbl.Location = new System.Drawing.Point(759, 266);
         this.OvertimeLossesLbl.Name = "OvertimeLossesLbl";
         this.OvertimeLossesLbl.Size = new System.Drawing.Size(114, 17);
         this.OvertimeLossesLbl.TabIndex = 23;
         this.OvertimeLossesLbl.Text = "Overtime Losses";
-        this.OvertimeLossesLbl.Click += new System.EventHandler(this.OvertimeLossesLbl_Click);
         // 
         // ShotsPerGameLbl
         // 
         this.ShotsPerGameLbl.AutoSize = true;
-        this.ShotsPerGameLbl.Location = new System.Drawing.Point(731, 458);
+        this.ShotsPerGameLbl.Location = new System.Drawing.Point(761, 455);
         this.ShotsPerGameLbl.Name = "ShotsPerGameLbl";
         this.ShotsPerGameLbl.Size = new System.Drawing.Size(112, 17);
         this.ShotsPerGameLbl.TabIndex = 31;
         this.ShotsPerGameLbl.Text = "Shots Per Game";
-        this.ShotsPerGameLbl.Click += new System.EventHandler(this.ShotsPerGameLbl_Click);
         // 
         // PenaltyKillPercentageLbl
         // 
         this.PenaltyKillPercentageLbl.AutoSize = true;
-        this.PenaltyKillPercentageLbl.Location = new System.Drawing.Point(750, 431);
+        this.PenaltyKillPercentageLbl.Location = new System.Drawing.Point(780, 428);
         this.PenaltyKillPercentageLbl.Name = "PenaltyKillPercentageLbl";
         this.PenaltyKillPercentageLbl.Size = new System.Drawing.Size(93, 17);
         this.PenaltyKillPercentageLbl.TabIndex = 30;
         this.PenaltyKillPercentageLbl.Text = "Penalty Kill %";
-        this.PenaltyKillPercentageLbl.Click += new System.EventHandler(this.PenaltyKillPercentageLbl_Click);
         // 
         // PowerPlayPercentageLbl
         // 
         this.PowerPlayPercentageLbl.AutoSize = true;
-        this.PowerPlayPercentageLbl.Location = new System.Drawing.Point(754, 404);
+        this.PowerPlayPercentageLbl.Location = new System.Drawing.Point(784, 401);
         this.PowerPlayPercentageLbl.Name = "PowerPlayPercentageLbl";
         this.PowerPlayPercentageLbl.Size = new System.Drawing.Size(89, 17);
         this.PowerPlayPercentageLbl.TabIndex = 29;
         this.PowerPlayPercentageLbl.Text = "Powerplay %";
-        this.PowerPlayPercentageLbl.Click += new System.EventHandler(this.PowerPlayPercentageLbl_Click);
         // 
         // FFFARatioLbl
         // 
         this.FFFARatioLbl.AutoSize = true;
-        this.FFFARatioLbl.Location = new System.Drawing.Point(752, 377);
+        this.FFFARatioLbl.Location = new System.Drawing.Point(782, 374);
         this.FFFARatioLbl.Name = "FFFARatioLbl";
         this.FFFARatioLbl.Size = new System.Drawing.Size(91, 17);
         this.FFFARatioLbl.TabIndex = 28;
         this.FFFARatioLbl.Text = "5-5 F/A Ratio";
-        this.FFFARatioLbl.Click += new System.EventHandler(this.FFFARatio_Click);
         // 
         // GoalsAgainstPerGameLbl
         // 
         this.GoalsAgainstPerGameLbl.AutoSize = true;
-        this.GoalsAgainstPerGameLbl.Location = new System.Drawing.Point(679, 350);
+        this.GoalsAgainstPerGameLbl.Location = new System.Drawing.Point(709, 347);
         this.GoalsAgainstPerGameLbl.Name = "GoalsAgainstPerGameLbl";
         this.GoalsAgainstPerGameLbl.Size = new System.Drawing.Size(164, 17);
         this.GoalsAgainstPerGameLbl.TabIndex = 27;
         this.GoalsAgainstPerGameLbl.Text = "Goals Against Per Game";
-        this.GoalsAgainstPerGameLbl.Click += new System.EventHandler(this.GoalsAgainstPerGameLbl_Click);
         // 
         // GoalsPerGameLbl
         // 
         this.GoalsPerGameLbl.AutoSize = true;
-        this.GoalsPerGameLbl.Location = new System.Drawing.Point(730, 323);
+        this.GoalsPerGameLbl.Location = new System.Drawing.Point(760, 320);
         this.GoalsPerGameLbl.Name = "GoalsPerGameLbl";
         this.GoalsPerGameLbl.Size = new System.Drawing.Size(113, 17);
         this.GoalsPerGameLbl.TabIndex = 26;
         this.GoalsPerGameLbl.Text = "Goals Per Game";
-        this.GoalsPerGameLbl.Click += new System.EventHandler(this.GoalsPerGameLbl_Click);
         // 
         // FOWPLbl
         // 
         this.FOWPLbl.AutoSize = true;
-        this.FOWPLbl.Location = new System.Drawing.Point(744, 676);
+        this.FOWPLbl.Location = new System.Drawing.Point(774, 673);
         this.FOWPLbl.Name = "FOWPLbl";
         this.FOWPLbl.Size = new System.Drawing.Size(99, 17);
         this.FOWPLbl.TabIndex = 39;
         this.FOWPLbl.Text = "Faceoff Win %";
-        this.FOWPLbl.Click += new System.EventHandler(this.FaceoffWinPercentage_Click);
         // 
         // WPOutShotLbl
         // 
         this.WPOutShotLbl.AutoSize = true;
-        this.WPOutShotLbl.Location = new System.Drawing.Point(741, 649);
+        this.WPOutShotLbl.Location = new System.Drawing.Point(771, 646);
         this.WPOutShotLbl.Name = "WPOutShotLbl";
         this.WPOutShotLbl.Size = new System.Drawing.Size(102, 17);
         this.WPOutShotLbl.TabIndex = 38;
         this.WPOutShotLbl.Text = "Win % Outshot";
-        this.WPOutShotLbl.Click += new System.EventHandler(this.WinPercentageOutShot_Click);
         // 
         // WPOutshootingLbl
         // 
         this.WPOutshootingLbl.AutoSize = true;
-        this.WPOutshootingLbl.Location = new System.Drawing.Point(714, 622);
+        this.WPOutshootingLbl.Location = new System.Drawing.Point(744, 619);
         this.WPOutshootingLbl.Name = "WPOutshootingLbl";
         this.WPOutshootingLbl.Size = new System.Drawing.Size(129, 17);
         this.WPOutshootingLbl.TabIndex = 37;
         this.WPOutshootingLbl.Text = "Win % Outshooting";
-        this.WPOutshootingLbl.Click += new System.EventHandler(this.WinPercentageOutshooting_Click);
         // 
         // WPLA1Lbl
         // 
         this.WPLA1Lbl.AutoSize = true;
-        this.WPLA1Lbl.Location = new System.Drawing.Point(678, 566);
+        this.WPLA1Lbl.Location = new System.Drawing.Point(708, 563);
         this.WPLA1Lbl.Name = "WPLA1Lbl";
         this.WPLA1Lbl.Size = new System.Drawing.Size(165, 17);
         this.WPLA1Lbl.TabIndex = 36;
         this.WPLA1Lbl.Text = "Win % Leading After one";
-        this.WPLA1Lbl.Click += new System.EventHandler(this.WinPercentageLeadingAfterOneLbl_Click);
         // 
         // WPTFLbl
         // 
         this.WPTFLbl.AutoSize = true;
-        this.WPTFLbl.Location = new System.Drawing.Point(690, 539);
+        this.WPTFLbl.Location = new System.Drawing.Point(720, 536);
         this.WPTFLbl.Name = "WPTFLbl";
         this.WPTFLbl.Size = new System.Drawing.Size(153, 17);
         this.WPTFLbl.TabIndex = 35;
         this.WPTFLbl.Text = "Winning %Trailing First";
-        this.WPTFLbl.Click += new System.EventHandler(this.WinningPercentageTrailingFirstLbl_Click);
         // 
         // WPSFLbl
         // 
         this.WPSFLbl.AutoSize = true;
-        this.WPSFLbl.Location = new System.Drawing.Point(685, 512);
+        this.WPSFLbl.Location = new System.Drawing.Point(715, 509);
         this.WPSFLbl.Name = "WPSFLbl";
         this.WPSFLbl.Size = new System.Drawing.Size(158, 17);
         this.WPSFLbl.TabIndex = 34;
         this.WPSFLbl.Text = "Winning % Scoring First";
-        this.WPSFLbl.Click += new System.EventHandler(this.WinningPercentageScoringFirstLbl_Click);
         // 
         // ShotsAgainstPerGameLbl
         // 
         this.ShotsAgainstPerGameLbl.AutoSize = true;
-        this.ShotsAgainstPerGameLbl.Location = new System.Drawing.Point(680, 485);
+        this.ShotsAgainstPerGameLbl.Location = new System.Drawing.Point(710, 482);
         this.ShotsAgainstPerGameLbl.Name = "ShotsAgainstPerGameLbl";
         this.ShotsAgainstPerGameLbl.Size = new System.Drawing.Size(163, 17);
         this.ShotsAgainstPerGameLbl.TabIndex = 33;
         this.ShotsAgainstPerGameLbl.Text = "Shots Against Per Game";
-        this.ShotsAgainstPerGameLbl.Click += new System.EventHandler(this.ShotsAgainstPerGameLbl_Click);
         // 
         // PointsLbl
         // 
         this.PointsLbl.AutoSize = true;
-        this.PointsLbl.Location = new System.Drawing.Point(796, 188);
+        this.PointsLbl.Location = new System.Drawing.Point(826, 185);
         this.PointsLbl.Name = "PointsLbl";
         this.PointsLbl.Size = new System.Drawing.Size(47, 17);
         this.PointsLbl.TabIndex = 32;
         this.PointsLbl.Text = "Points";
-        this.PointsLbl.Click += new System.EventHandler(this.label8_Click);
         // 
         // HomeLbl
         // 
         this.HomeLbl.AutoSize = true;
         this.HomeLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.HomeLbl.Location = new System.Drawing.Point(893, 30);
+        this.HomeLbl.Location = new System.Drawing.Point(907, 32);
         this.HomeLbl.Name = "HomeLbl";
         this.HomeLbl.Size = new System.Drawing.Size(129, 25);
         this.HomeLbl.TabIndex = 41;
         this.HomeLbl.Text = "Home Team";
-        this.HomeLbl.Click += new System.EventHandler(this.HomeLbl_Click);
         // 
         // AwayLbl
         // 
         this.AwayLbl.AutoSize = true;
         this.AwayLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.AwayLbl.Location = new System.Drawing.Point(1135, 29);
+        this.AwayLbl.Location = new System.Drawing.Point(1121, 31);
         this.AwayLbl.Name = "AwayLbl";
         this.AwayLbl.Size = new System.Drawing.Size(126, 25);
         this.AwayLbl.TabIndex = 42;
         this.AwayLbl.Text = "Away Team";
-        this.AwayLbl.Click += new System.EventHandler(this.AwayLbl_Click);
         // 
         // FOWPHomeLbl
         // 
@@ -385,7 +372,6 @@
         this.FOWPHomeLbl.Name = "FOWPHomeLbl";
         this.FOWPHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.FOWPHomeLbl.TabIndex = 62;
-        this.FOWPHomeLbl.Click += new System.EventHandler(this.FOWPHomeLbl_Click);
         // 
         // WPOutshotHomeLbl
         // 
@@ -394,7 +380,6 @@
         this.WPOutshotHomeLbl.Name = "WPOutshotHomeLbl";
         this.WPOutshotHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.WPOutshotHomeLbl.TabIndex = 61;
-        this.WPOutshotHomeLbl.Click += new System.EventHandler(this.WPOutshotHomeLbl_Click);
         // 
         // WPOutshootingHomeLbl
         // 
@@ -403,7 +388,6 @@
         this.WPOutshootingHomeLbl.Name = "WPOutshootingHomeLbl";
         this.WPOutshootingHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.WPOutshootingHomeLbl.TabIndex = 60;
-        this.WPOutshootingHomeLbl.Click += new System.EventHandler(this.WPOutshootingHomeLbl_Click);
         // 
         // WPLA1HomeLbl
         // 
@@ -412,7 +396,6 @@
         this.WPLA1HomeLbl.Name = "WPLA1HomeLbl";
         this.WPLA1HomeLbl.Size = new System.Drawing.Size(0, 17);
         this.WPLA1HomeLbl.TabIndex = 59;
-        this.WPLA1HomeLbl.Click += new System.EventHandler(this.WPLA1HomeLbl_Click);
         // 
         // WPTFHomeLbl
         // 
@@ -421,7 +404,6 @@
         this.WPTFHomeLbl.Name = "WPTFHomeLbl";
         this.WPTFHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.WPTFHomeLbl.TabIndex = 58;
-        this.WPTFHomeLbl.Click += new System.EventHandler(this.WPTFHomeLbl_Click);
         // 
         // WPSFHomeLbl
         // 
@@ -430,7 +412,6 @@
         this.WPSFHomeLbl.Name = "WPSFHomeLbl";
         this.WPSFHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.WPSFHomeLbl.TabIndex = 57;
-        this.WPSFHomeLbl.Click += new System.EventHandler(this.WPSFHomeLbl_Click);
         // 
         // ShotsAgainstPerGameHomeLbl
         // 
@@ -439,7 +420,6 @@
         this.ShotsAgainstPerGameHomeLbl.Name = "ShotsAgainstPerGameHomeLbl";
         this.ShotsAgainstPerGameHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.ShotsAgainstPerGameHomeLbl.TabIndex = 56;
-        this.ShotsAgainstPerGameHomeLbl.Click += new System.EventHandler(this.SAPGHomeLbl_Click);
         // 
         // PointsHomeLbl
         // 
@@ -448,7 +428,6 @@
         this.PointsHomeLbl.Name = "PointsHomeLbl";
         this.PointsHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.PointsHomeLbl.TabIndex = 55;
-        this.PointsHomeLbl.Click += new System.EventHandler(this.PointsHomeLbl_Click);
         // 
         // ShotsPerGameHomeLbl
         // 
@@ -457,7 +436,6 @@
         this.ShotsPerGameHomeLbl.Name = "ShotsPerGameHomeLbl";
         this.ShotsPerGameHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.ShotsPerGameHomeLbl.TabIndex = 54;
-        this.ShotsPerGameHomeLbl.Click += new System.EventHandler(this.SPGHomeLbl_Click);
         // 
         // PenaltyKillPercentageHomeLbl
         // 
@@ -466,7 +444,6 @@
         this.PenaltyKillPercentageHomeLbl.Name = "PenaltyKillPercentageHomeLbl";
         this.PenaltyKillPercentageHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.PenaltyKillPercentageHomeLbl.TabIndex = 53;
-        this.PenaltyKillPercentageHomeLbl.Click += new System.EventHandler(this.PKPHomeLbl_Click);
         // 
         // PowerPlayPercentageHomeLbl
         // 
@@ -475,7 +452,6 @@
         this.PowerPlayPercentageHomeLbl.Name = "PowerPlayPercentageHomeLbl";
         this.PowerPlayPercentageHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.PowerPlayPercentageHomeLbl.TabIndex = 52;
-        this.PowerPlayPercentageHomeLbl.Click += new System.EventHandler(this.PPPHomeLbl_Click);
         // 
         // FFFARatioHomeLbl
         // 
@@ -484,7 +460,6 @@
         this.FFFARatioHomeLbl.Name = "FFFARatioHomeLbl";
         this.FFFARatioHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.FFFARatioHomeLbl.TabIndex = 51;
-        this.FFFARatioHomeLbl.Click += new System.EventHandler(this.FFFARatioHomeLbl_Click);
         // 
         // GoalsAgainstPerGameHomeLbl
         // 
@@ -493,7 +468,6 @@
         this.GoalsAgainstPerGameHomeLbl.Name = "GoalsAgainstPerGameHomeLbl";
         this.GoalsAgainstPerGameHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.GoalsAgainstPerGameHomeLbl.TabIndex = 50;
-        this.GoalsAgainstPerGameHomeLbl.Click += new System.EventHandler(this.GAPGHomeLbl_Click);
         // 
         // GoalsPerGameHomeLbl
         // 
@@ -502,7 +476,6 @@
         this.GoalsPerGameHomeLbl.Name = "GoalsPerGameHomeLbl";
         this.GoalsPerGameHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.GoalsPerGameHomeLbl.TabIndex = 49;
-        this.GoalsPerGameHomeLbl.Click += new System.EventHandler(this.GPGHomeLbl_Click);
         // 
         // PointPercentageHomeLbl
         // 
@@ -511,7 +484,6 @@
         this.PointPercentageHomeLbl.Name = "PointPercentageHomeLbl";
         this.PointPercentageHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.PointPercentageHomeLbl.TabIndex = 48;
-        this.PointPercentageHomeLbl.Click += new System.EventHandler(this.PointPercentageHomeLbl_Click);
         // 
         // OverTimeLossesHomeLbl
         // 
@@ -520,7 +492,6 @@
         this.OverTimeLossesHomeLbl.Name = "OverTimeLossesHomeLbl";
         this.OverTimeLossesHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.OverTimeLossesHomeLbl.TabIndex = 46;
-        this.OverTimeLossesHomeLbl.Click += new System.EventHandler(this.OTLHomeLbl_Click);
         // 
         // LossesHomeLbl
         // 
@@ -529,7 +500,6 @@
         this.LossesHomeLbl.Name = "LossesHomeLbl";
         this.LossesHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.LossesHomeLbl.TabIndex = 45;
-        this.LossesHomeLbl.Click += new System.EventHandler(this.LossesHomeLbl_Click);
         // 
         // WinsHomeLbl
         // 
@@ -538,7 +508,6 @@
         this.WinsHomeLbl.Name = "WinsHomeLbl";
         this.WinsHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.WinsHomeLbl.TabIndex = 44;
-        this.WinsHomeLbl.Click += new System.EventHandler(this.WinsHomeLbl_Click);
         // 
         // GamesPlayedHomeLbl
         // 
@@ -547,187 +516,166 @@
         this.GamesPlayedHomeLbl.Name = "GamesPlayedHomeLbl";
         this.GamesPlayedHomeLbl.Size = new System.Drawing.Size(0, 17);
         this.GamesPlayedHomeLbl.TabIndex = 43;
-        this.GamesPlayedHomeLbl.Click += new System.EventHandler(this.GPHomeLbl_Click);
         // 
         // FOWPAwayLbl
         // 
         this.FOWPAwayLbl.AutoSize = true;
-        this.FOWPAwayLbl.Location = new System.Drawing.Point(1201, 676);
+        this.FOWPAwayLbl.Location = new System.Drawing.Point(1177, 676);
         this.FOWPAwayLbl.Name = "FOWPAwayLbl";
         this.FOWPAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.FOWPAwayLbl.TabIndex = 82;
-        this.FOWPAwayLbl.Click += new System.EventHandler(this.FOWPAwayLbl_Click);
         // 
         // WPOutshotAwayLbl
         // 
         this.WPOutshotAwayLbl.AutoSize = true;
-        this.WPOutshotAwayLbl.Location = new System.Drawing.Point(1201, 649);
+        this.WPOutshotAwayLbl.Location = new System.Drawing.Point(1177, 649);
         this.WPOutshotAwayLbl.Name = "WPOutshotAwayLbl";
         this.WPOutshotAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.WPOutshotAwayLbl.TabIndex = 81;
-        this.WPOutshotAwayLbl.Click += new System.EventHandler(this.WPOutshotAwayLbl_Click);
         // 
         // WPOutshootingAwayLbl
         // 
         this.WPOutshootingAwayLbl.AutoSize = true;
-        this.WPOutshootingAwayLbl.Location = new System.Drawing.Point(1201, 622);
+        this.WPOutshootingAwayLbl.Location = new System.Drawing.Point(1177, 622);
         this.WPOutshootingAwayLbl.Name = "WPOutshootingAwayLbl";
         this.WPOutshootingAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.WPOutshootingAwayLbl.TabIndex = 80;
-        this.WPOutshootingAwayLbl.Click += new System.EventHandler(this.WPOutshootingAwayLbl_Click);
         // 
         // WPLA1AwayLbl
         // 
         this.WPLA1AwayLbl.AutoSize = true;
-        this.WPLA1AwayLbl.Location = new System.Drawing.Point(1201, 566);
+        this.WPLA1AwayLbl.Location = new System.Drawing.Point(1177, 566);
         this.WPLA1AwayLbl.Name = "WPLA1AwayLbl";
         this.WPLA1AwayLbl.Size = new System.Drawing.Size(0, 17);
         this.WPLA1AwayLbl.TabIndex = 79;
-        this.WPLA1AwayLbl.Click += new System.EventHandler(this.WPLA1AwayLbl_Click);
         // 
         // WPTFAwayLbl
         // 
         this.WPTFAwayLbl.AutoSize = true;
-        this.WPTFAwayLbl.Location = new System.Drawing.Point(1201, 539);
+        this.WPTFAwayLbl.Location = new System.Drawing.Point(1177, 539);
         this.WPTFAwayLbl.Name = "WPTFAwayLbl";
         this.WPTFAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.WPTFAwayLbl.TabIndex = 78;
-        this.WPTFAwayLbl.Click += new System.EventHandler(this.WPTFAwayLbl_Click);
         // 
         // WPSFAwayLbl
         // 
         this.WPSFAwayLbl.AutoSize = true;
-        this.WPSFAwayLbl.Location = new System.Drawing.Point(1201, 512);
+        this.WPSFAwayLbl.Location = new System.Drawing.Point(1177, 512);
         this.WPSFAwayLbl.Name = "WPSFAwayLbl";
         this.WPSFAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.WPSFAwayLbl.TabIndex = 77;
-        this.WPSFAwayLbl.Click += new System.EventHandler(this.WPSFAwayLbl_Click);
         // 
         // ShotsAgainstPerGameAwayLbl
         // 
         this.ShotsAgainstPerGameAwayLbl.AutoSize = true;
-        this.ShotsAgainstPerGameAwayLbl.Location = new System.Drawing.Point(1201, 485);
+        this.ShotsAgainstPerGameAwayLbl.Location = new System.Drawing.Point(1177, 485);
         this.ShotsAgainstPerGameAwayLbl.Name = "ShotsAgainstPerGameAwayLbl";
         this.ShotsAgainstPerGameAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.ShotsAgainstPerGameAwayLbl.TabIndex = 76;
-        this.ShotsAgainstPerGameAwayLbl.Click += new System.EventHandler(this.SAPGAwayLbl_Click);
         // 
         // PointsAwayLbl
         // 
         this.PointsAwayLbl.AutoSize = true;
-        this.PointsAwayLbl.Location = new System.Drawing.Point(1201, 188);
+        this.PointsAwayLbl.Location = new System.Drawing.Point(1177, 188);
         this.PointsAwayLbl.Name = "PointsAwayLbl";
         this.PointsAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.PointsAwayLbl.TabIndex = 75;
-        this.PointsAwayLbl.Click += new System.EventHandler(this.PointsAwayLbl_Click);
         // 
         // ShotsPerGameAwayLbl
         // 
         this.ShotsPerGameAwayLbl.AutoSize = true;
-        this.ShotsPerGameAwayLbl.Location = new System.Drawing.Point(1201, 458);
+        this.ShotsPerGameAwayLbl.Location = new System.Drawing.Point(1177, 458);
         this.ShotsPerGameAwayLbl.Name = "ShotsPerGameAwayLbl";
         this.ShotsPerGameAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.ShotsPerGameAwayLbl.TabIndex = 74;
-        this.ShotsPerGameAwayLbl.Click += new System.EventHandler(this.SPGAwayLbl_Click);
         // 
         // PenaltyKillPercentageAwayLbl
         // 
         this.PenaltyKillPercentageAwayLbl.AutoSize = true;
-        this.PenaltyKillPercentageAwayLbl.Location = new System.Drawing.Point(1201, 431);
+        this.PenaltyKillPercentageAwayLbl.Location = new System.Drawing.Point(1177, 431);
         this.PenaltyKillPercentageAwayLbl.Name = "PenaltyKillPercentageAwayLbl";
         this.PenaltyKillPercentageAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.PenaltyKillPercentageAwayLbl.TabIndex = 73;
-        this.PenaltyKillPercentageAwayLbl.Click += new System.EventHandler(this.PKPAwayLbl_Click);
         // 
         // PowerPlayPercentageAwayLbl
         // 
         this.PowerPlayPercentageAwayLbl.AutoSize = true;
-        this.PowerPlayPercentageAwayLbl.Location = new System.Drawing.Point(1201, 404);
+        this.PowerPlayPercentageAwayLbl.Location = new System.Drawing.Point(1177, 404);
         this.PowerPlayPercentageAwayLbl.Name = "PowerPlayPercentageAwayLbl";
         this.PowerPlayPercentageAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.PowerPlayPercentageAwayLbl.TabIndex = 72;
-        this.PowerPlayPercentageAwayLbl.Click += new System.EventHandler(this.PPPAwayLbl_Click);
         // 
         // FFFARatioAwayLbl
         // 
         this.FFFARatioAwayLbl.AutoSize = true;
-        this.FFFARatioAwayLbl.Location = new System.Drawing.Point(1201, 377);
+        this.FFFARatioAwayLbl.Location = new System.Drawing.Point(1177, 377);
         this.FFFARatioAwayLbl.Name = "FFFARatioAwayLbl";
         this.FFFARatioAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.FFFARatioAwayLbl.TabIndex = 71;
-        this.FFFARatioAwayLbl.Click += new System.EventHandler(this.FFFARatioAwayLbl_Click);
         // 
         // GoalsAgainstPerGameAwayLbl
         // 
         this.GoalsAgainstPerGameAwayLbl.AutoSize = true;
-        this.GoalsAgainstPerGameAwayLbl.Location = new System.Drawing.Point(1201, 350);
+        this.GoalsAgainstPerGameAwayLbl.Location = new System.Drawing.Point(1177, 350);
         this.GoalsAgainstPerGameAwayLbl.Name = "GoalsAgainstPerGameAwayLbl";
         this.GoalsAgainstPerGameAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.GoalsAgainstPerGameAwayLbl.TabIndex = 70;
-        this.GoalsAgainstPerGameAwayLbl.Click += new System.EventHandler(this.GAPGAwayLbl_Click);
         // 
         // GaolsPerGameAwayLbl
         // 
         this.GaolsPerGameAwayLbl.AutoSize = true;
-        this.GaolsPerGameAwayLbl.Location = new System.Drawing.Point(1201, 323);
+        this.GaolsPerGameAwayLbl.Location = new System.Drawing.Point(1177, 323);
         this.GaolsPerGameAwayLbl.Name = "GaolsPerGameAwayLbl";
         this.GaolsPerGameAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.GaolsPerGameAwayLbl.TabIndex = 69;
-        this.GaolsPerGameAwayLbl.Click += new System.EventHandler(this.GPGAwayLbl_Click);
         // 
         // PointPercentageAwayLbl
         // 
         this.PointPercentageAwayLbl.AutoSize = true;
-        this.PointPercentageAwayLbl.Location = new System.Drawing.Point(1201, 296);
+        this.PointPercentageAwayLbl.Location = new System.Drawing.Point(1177, 296);
         this.PointPercentageAwayLbl.Name = "PointPercentageAwayLbl";
         this.PointPercentageAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.PointPercentageAwayLbl.TabIndex = 68;
-        this.PointPercentageAwayLbl.Click += new System.EventHandler(this.PointPercentageAwayLbl_Click);
         // 
         // OverTimeLossesAwayLbl
         // 
         this.OverTimeLossesAwayLbl.AutoSize = true;
-        this.OverTimeLossesAwayLbl.Location = new System.Drawing.Point(1201, 269);
+        this.OverTimeLossesAwayLbl.Location = new System.Drawing.Point(1177, 269);
         this.OverTimeLossesAwayLbl.Name = "OverTimeLossesAwayLbl";
         this.OverTimeLossesAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.OverTimeLossesAwayLbl.TabIndex = 66;
-        this.OverTimeLossesAwayLbl.Click += new System.EventHandler(this.OTLAwayLbl_Click);
         // 
         // LossesAwayLbl
         // 
         this.LossesAwayLbl.AutoSize = true;
-        this.LossesAwayLbl.Location = new System.Drawing.Point(1201, 242);
+        this.LossesAwayLbl.Location = new System.Drawing.Point(1177, 242);
         this.LossesAwayLbl.Name = "LossesAwayLbl";
         this.LossesAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.LossesAwayLbl.TabIndex = 65;
-        this.LossesAwayLbl.Click += new System.EventHandler(this.LossesAwayLbl_Click);
         // 
         // WinsAwayLbl
         // 
         this.WinsAwayLbl.AutoSize = true;
-        this.WinsAwayLbl.Location = new System.Drawing.Point(1201, 215);
+        this.WinsAwayLbl.Location = new System.Drawing.Point(1177, 215);
         this.WinsAwayLbl.Name = "WinsAwayLbl";
         this.WinsAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.WinsAwayLbl.TabIndex = 64;
-        this.WinsAwayLbl.Click += new System.EventHandler(this.WinsAwayLbl_Click);
         // 
         // GamesPlayedAwayLbl
         // 
         this.GamesPlayedAwayLbl.AutoSize = true;
-        this.GamesPlayedAwayLbl.Location = new System.Drawing.Point(1201, 161);
+        this.GamesPlayedAwayLbl.Location = new System.Drawing.Point(1177, 161);
         this.GamesPlayedAwayLbl.Name = "GamesPlayedAwayLbl";
         this.GamesPlayedAwayLbl.Size = new System.Drawing.Size(0, 17);
         this.GamesPlayedAwayLbl.TabIndex = 63;
-        this.GamesPlayedAwayLbl.Click += new System.EventHandler(this.GPAwayLbl_Click);
         // 
         // WPLA2AwayLbl
         // 
         this.WPLA2AwayLbl.AutoSize = true;
-        this.WPLA2AwayLbl.Location = new System.Drawing.Point(1201, 592);
+        this.WPLA2AwayLbl.Location = new System.Drawing.Point(1177, 592);
         this.WPLA2AwayLbl.Name = "WPLA2AwayLbl";
         this.WPLA2AwayLbl.Size = new System.Drawing.Size(0, 17);
         this.WPLA2AwayLbl.TabIndex = 85;
-        this.WPLA2AwayLbl.Click += new System.EventHandler(this.WPLA2AwayLbl_Click);
         // 
         // WPLA2HomeLbl
         // 
@@ -736,17 +684,15 @@
         this.WPLA2HomeLbl.Name = "WPLA2HomeLbl";
         this.WPLA2HomeLbl.Size = new System.Drawing.Size(0, 17);
         this.WPLA2HomeLbl.TabIndex = 84;
-        this.WPLA2HomeLbl.Click += new System.EventHandler(this.WPLA2HomeLbl_Click);
         // 
         // WPLA2Lbl
         // 
         this.WPLA2Lbl.AutoSize = true;
-        this.WPLA2Lbl.Location = new System.Drawing.Point(678, 592);
+        this.WPLA2Lbl.Location = new System.Drawing.Point(708, 589);
         this.WPLA2Lbl.Name = "WPLA2Lbl";
         this.WPLA2Lbl.Size = new System.Drawing.Size(165, 17);
         this.WPLA2Lbl.TabIndex = 83;
         this.WPLA2Lbl.Text = "Win % Leading After one";
-        this.WPLA2Lbl.Click += new System.EventHandler(this.WinningPercentageLeadingAfterTwoLbl_Click);
         // 
         // AvailableBetList
         // 
@@ -822,7 +768,7 @@
         this.shapeContainer1.Name = "shapeContainer1";
         this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.lineShape1});
-        this.shapeContainer1.Size = new System.Drawing.Size(1376, 721);
+        this.shapeContainer1.Size = new System.Drawing.Size(1376, 767);
         this.shapeContainer1.TabIndex = 97;
         this.shapeContainer1.TabStop = false;
         // 
@@ -834,26 +780,17 @@
         this.lineShape1.Y1 = 421;
         this.lineShape1.Y2 = 421;
         // 
-        // FilterLbl
-        // 
-        this.FilterLbl.AutoSize = true;
-        this.FilterLbl.Location = new System.Drawing.Point(66, 431);
-        this.FilterLbl.Name = "FilterLbl";
-        this.FilterLbl.Size = new System.Drawing.Size(39, 17);
-        this.FilterLbl.TabIndex = 98;
-        this.FilterLbl.Text = "Filter";
-        // 
         // FilterListBox
         // 
         this.FilterListBox.FormattingEnabled = true;
-        this.FilterListBox.Location = new System.Drawing.Point(69, 468);
+        this.FilterListBox.Location = new System.Drawing.Point(466, 465);
         this.FilterListBox.Name = "FilterListBox";
-        this.FilterListBox.Size = new System.Drawing.Size(136, 225);
+        this.FilterListBox.Size = new System.Drawing.Size(140, 225);
         this.FilterListBox.TabIndex = 99;
         // 
         // FilterUpDown
         // 
-        this.FilterUpDown.Location = new System.Drawing.Point(473, 468);
+        this.FilterUpDown.Location = new System.Drawing.Point(281, 468);
         this.FilterUpDown.Name = "FilterUpDown";
         this.FilterUpDown.Size = new System.Drawing.Size(84, 22);
         this.FilterUpDown.TabIndex = 100;
@@ -867,17 +804,16 @@
         // FilterSentence1
         // 
         this.FilterSentence1.AutoSize = true;
-        this.FilterSentence1.Location = new System.Drawing.Point(233, 431);
+        this.FilterSentence1.Location = new System.Drawing.Point(41, 431);
         this.FilterSentence1.Name = "FilterSentence1";
         this.FilterSentence1.Size = new System.Drawing.Size(102, 17);
         this.FilterSentence1.TabIndex = 101;
         this.FilterSentence1.Text = "Filter bets with ";
-        this.FilterSentence1.Click += new System.EventHandler(this.FilterSentence_Click);
         // 
         // Unit
         // 
         this.Unit.AutoSize = true;
-        this.Unit.Location = new System.Drawing.Point(563, 468);
+        this.Unit.Location = new System.Drawing.Point(371, 468);
         this.Unit.Name = "Unit";
         this.Unit.Size = new System.Drawing.Size(20, 17);
         this.Unit.TabIndex = 102;
@@ -893,7 +829,7 @@
             "odds under",
             "exact PID",
             "type of bet : "});
-        this.FilterFactor.Location = new System.Drawing.Point(236, 466);
+        this.FilterFactor.Location = new System.Drawing.Point(44, 466);
         this.FilterFactor.Name = "FilterFactor";
         this.FilterFactor.Size = new System.Drawing.Size(231, 24);
         this.FilterFactor.TabIndex = 103;
@@ -903,7 +839,7 @@
         // 
         this.FilterItems.FormattingEnabled = true;
         this.FilterItems.ItemHeight = 16;
-        this.FilterItems.Location = new System.Drawing.Point(236, 512);
+        this.FilterItems.Location = new System.Drawing.Point(44, 510);
         this.FilterItems.Name = "FilterItems";
         this.FilterItems.Size = new System.Drawing.Size(347, 180);
         this.FilterItems.TabIndex = 104;
@@ -912,7 +848,7 @@
         // ComputeProb
         // 
         this.ComputeProb.Enabled = false;
-        this.ComputeProb.Location = new System.Drawing.Point(636, 82);
+        this.ComputeProb.Location = new System.Drawing.Point(637, 100);
         this.ComputeProb.Margin = new System.Windows.Forms.Padding(4);
         this.ComputeProb.Name = "ComputeProb";
         this.ComputeProb.Size = new System.Drawing.Size(100, 28);
@@ -937,18 +873,103 @@
             "FirstGoalBet",
             "GainMarginBet",
             "ExactScoreBet"});
-        this.FilterBetTypeDropDown.Location = new System.Drawing.Point(473, 465);
+        this.FilterBetTypeDropDown.Location = new System.Drawing.Point(281, 465);
         this.FilterBetTypeDropDown.Name = "FilterBetTypeDropDown";
         this.FilterBetTypeDropDown.Size = new System.Drawing.Size(110, 24);
         this.FilterBetTypeDropDown.TabIndex = 106;
         this.FilterBetTypeDropDown.Visible = false;
         this.FilterBetTypeDropDown.SelectedIndexChanged += new System.EventHandler(this.FilterBetTypeDropDown_SelectedIndexChanged);
         // 
+        // menuStrip1
+        // 
+        this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.createToolStripMenuItem});
+        this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+        this.menuStrip1.Name = "menuStrip1";
+        this.menuStrip1.Size = new System.Drawing.Size(1376, 28);
+        this.menuStrip1.TabIndex = 108;
+        this.menuStrip1.Text = "menuStrip1";
+        // 
+        // fileToolStripMenuItem
+        // 
+        this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem1,
+            this.loadToolStripMenuItem1,
+            this.quitToolStripMenuItem1});
+        this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+        this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+        this.fileToolStripMenuItem.Text = "File";
+        // 
+        // saveToolStripMenuItem1
+        // 
+        this.saveToolStripMenuItem1.Enabled = false;
+        this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+        this.saveToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+        this.saveToolStripMenuItem1.Text = "Save";
+        this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
+        // 
+        // loadToolStripMenuItem1
+        // 
+        this.loadToolStripMenuItem1.Enabled = false;
+        this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
+        this.loadToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+        this.loadToolStripMenuItem1.Text = "Load";
+        this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
+        // 
+        // quitToolStripMenuItem1
+        // 
+        this.quitToolStripMenuItem1.Name = "quitToolStripMenuItem1";
+        this.quitToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+        this.quitToolStripMenuItem1.Text = "Quit";
+        this.quitToolStripMenuItem1.Click += new System.EventHandler(this.quitToolStripMenuItem1_Click);
+        // 
+        // createToolStripMenuItem
+        // 
+        this.createToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.toolStripMenuItem3});
+        this.createToolStripMenuItem.Name = "createToolStripMenuItem";
+        this.createToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+        this.createToolStripMenuItem.Text = "Help";
+        // 
+        // aboutToolStripMenuItem
+        // 
+        this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+        this.aboutToolStripMenuItem.Size = new System.Drawing.Size(128, 24);
+        this.aboutToolStripMenuItem.Text = "About...";
+        // 
+        // toolStripMenuItem3
+        // 
+        this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+        this.toolStripMenuItem3.Size = new System.Drawing.Size(128, 24);
+        this.toolStripMenuItem3.Text = "?";
+        // 
+        // progressBar1
+        // 
+        this.progressBar1.Location = new System.Drawing.Point(44, 732);
+        this.progressBar1.Name = "progressBar1";
+        this.progressBar1.Size = new System.Drawing.Size(562, 23);
+        this.progressBar1.TabIndex = 109;
+        this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+        // 
+        // ProgressLbl
+        // 
+        this.ProgressLbl.AutoSize = true;
+        this.ProgressLbl.Location = new System.Drawing.Point(41, 703);
+        this.ProgressLbl.Name = "ProgressLbl";
+        this.ProgressLbl.Size = new System.Drawing.Size(85, 17);
+        this.ProgressLbl.TabIndex = 110;
+        this.ProgressLbl.Text = "Initializing... ";
+        // 
         // Form1
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(1376, 721);
+        this.ClientSize = new System.Drawing.Size(1376, 767);
+        this.Controls.Add(this.ProgressLbl);
+        this.Controls.Add(this.progressBar1);
+        this.Controls.Add(this.menuStrip1);
         this.Controls.Add(this.FilterBetTypeDropDown);
         this.Controls.Add(this.ComputeProb);
         this.Controls.Add(this.FilterItems);
@@ -957,7 +978,6 @@
         this.Controls.Add(this.FilterSentence1);
         this.Controls.Add(this.FilterUpDown);
         this.Controls.Add(this.FilterListBox);
-        this.Controls.Add(this.FilterLbl);
         this.Controls.Add(this.Prob);
         this.Controls.Add(this.label4);
         this.Controls.Add(this.Pid);
@@ -1033,6 +1053,7 @@
         this.Controls.Add(this.GamesAvailable);
         this.Controls.Add(this.buttonRefresh);
         this.Controls.Add(this.shapeContainer1);
+        this.MainMenuStrip = this.menuStrip1;
         this.Margin = new System.Windows.Forms.Padding(4);
         this.Name = "Form1";
         this.Text = "NHL Better - - Make NHL Better";
@@ -1041,6 +1062,8 @@
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.FilterUpDown)).EndInit();
+        this.menuStrip1.ResumeLayout(false);
+        this.menuStrip1.PerformLayout();
         this.ResumeLayout(false);
         this.PerformLayout();
 
@@ -1124,7 +1147,6 @@
     private System.Windows.Forms.Label Prob;
     private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
     private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
-    private System.Windows.Forms.Label FilterLbl;
     private System.Windows.Forms.CheckedListBox FilterListBox;
     private System.Windows.Forms.NumericUpDown FilterUpDown;
     private System.Windows.Forms.Label FilterSentence1;
@@ -1133,6 +1155,16 @@
     private System.Windows.Forms.ListBox FilterItems;
     private System.Windows.Forms.Button ComputeProb;
     private System.Windows.Forms.ComboBox FilterBetTypeDropDown;
+    private System.Windows.Forms.MenuStrip menuStrip1;
+    private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
+    private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
+    private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem1;
+    private System.Windows.Forms.ToolStripMenuItem createToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+    private System.Windows.Forms.ProgressBar progressBar1;
+    private System.Windows.Forms.Label ProgressLbl;
   }
 }
 

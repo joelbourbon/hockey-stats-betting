@@ -48,7 +48,7 @@ public class ExactResult:Bet
         }
         else
         {
-            //This means you can bet on "any other score"
+            //This case means you can bet on "any other score"
             winningTeamScore = -1;
             losingTeamScore = -1;
         }
@@ -86,6 +86,42 @@ public class ExactResult:Bet
     public override List<Bet> ManageBetList(List<Bet> betList)
     {
         return betList;
+    }
+
+    public override void Probs()
+    {
+        //TeamBetAgainst is the Team on which this bet doesn't bet on
+        var TeamBetAgainst = (AssociatedMatch.TeamList[0].City == TeamBetOn.City
+                                  ? AssociatedMatch.TeamList[1]
+                                  : AssociatedMatch.TeamList[0]);
+
+        var MatchList_TBO = new List<MatchOver>();
+        var MatchList_TBA = new List<MatchOver>();
+        var prob_TBO = 0.0;
+        var prob_TBA = 0.0;
+
+        foreach (var match in TeamBetOn.MatchOverList)
+        {
+            if (match.goalsFor == winningTeamScore)
+            {
+                MatchList_TBO.Add(match);
+            }
+        }
+
+        prob_TBO = (double)MatchList_TBO.Count / TeamBetOn.GamesPlayed;
+
+        foreach (var match in TeamBetAgainst.MatchOverList)
+        {
+            if (match.goalsFor == losingTeamScore)
+            {
+                MatchList_TBA.Add(match);
+            }
+        }
+
+        prob_TBA = (double)MatchList_TBA.Count / TeamBetAgainst.GamesPlayed;
+
+        // Probability that the TBO score winningTeamScore goals AND that the TBA score losingTeamScore goals
+        prob = prob_TBA*prob_TBO*100;
     }
 
 
