@@ -122,6 +122,11 @@
         this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
         this.progressBar1 = new System.Windows.Forms.ProgressBar();
         this.ProgressLbl = new System.Windows.Forms.Label();
+        this.Duty = new System.Windows.Forms.Label();
+        this.DutyLbl = new System.Windows.Forms.Label();
+        this.BestDuty = new System.Windows.Forms.Button();
+        this.BestProb = new System.Windows.Forms.Button();
+        this.BestOdd = new System.Windows.Forms.Button();
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.FilterUpDown)).BeginInit();
@@ -755,11 +760,12 @@
         // 
         this.Prob.AutoSize = true;
         this.Prob.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.Prob.Location = new System.Drawing.Point(525, 382);
+        this.Prob.Location = new System.Drawing.Point(525, 378);
         this.Prob.Name = "Prob";
         this.Prob.Size = new System.Drawing.Size(19, 29);
         this.Prob.TabIndex = 96;
         this.Prob.Text = " ";
+        this.Prob.Click += new System.EventHandler(this.Prob_Click);
         // 
         // shapeContainer1
         // 
@@ -828,7 +834,8 @@
             "a happening probability under",
             "odds under",
             "exact PID",
-            "type of bet : "});
+            "type of bet :",
+            "duty over "});
         this.FilterFactor.Location = new System.Drawing.Point(44, 466);
         this.FilterFactor.Name = "FilterFactor";
         this.FilterFactor.Size = new System.Drawing.Size(231, 24);
@@ -905,7 +912,7 @@
         // 
         this.saveToolStripMenuItem1.Enabled = false;
         this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-        this.saveToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+        this.saveToolStripMenuItem1.Size = new System.Drawing.Size(111, 24);
         this.saveToolStripMenuItem1.Text = "Save";
         this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
         // 
@@ -913,14 +920,14 @@
         // 
         this.loadToolStripMenuItem1.Enabled = false;
         this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-        this.loadToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+        this.loadToolStripMenuItem1.Size = new System.Drawing.Size(111, 24);
         this.loadToolStripMenuItem1.Text = "Load";
         this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
         // 
         // quitToolStripMenuItem1
         // 
         this.quitToolStripMenuItem1.Name = "quitToolStripMenuItem1";
-        this.quitToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+        this.quitToolStripMenuItem1.Size = new System.Drawing.Size(111, 24);
         this.quitToolStripMenuItem1.Text = "Quit";
         this.quitToolStripMenuItem1.Click += new System.EventHandler(this.quitToolStripMenuItem1_Click);
         // 
@@ -962,11 +969,72 @@
         this.ProgressLbl.TabIndex = 110;
         this.ProgressLbl.Text = "Initializing... ";
         // 
+        // Duty
+        // 
+        this.Duty.AutoSize = true;
+        this.Duty.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.Duty.Location = new System.Drawing.Point(525, 334);
+        this.Duty.Name = "Duty";
+        this.Duty.Size = new System.Drawing.Size(19, 29);
+        this.Duty.TabIndex = 111;
+        this.Duty.Text = " ";
+        // 
+        // DutyLbl
+        // 
+        this.DutyLbl.AutoSize = true;
+        this.DutyLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.DutyLbl.Location = new System.Drawing.Point(430, 334);
+        this.DutyLbl.Name = "DutyLbl";
+        this.DutyLbl.Size = new System.Drawing.Size(78, 29);
+        this.DutyLbl.TabIndex = 112;
+        this.DutyLbl.Text = " Duty :";
+        // 
+        // BestDuty
+        // 
+        this.BestDuty.Enabled = false;
+        this.BestDuty.Location = new System.Drawing.Point(637, 185);
+        this.BestDuty.Margin = new System.Windows.Forms.Padding(4);
+        this.BestDuty.Name = "BestDuty";
+        this.BestDuty.Size = new System.Drawing.Size(100, 28);
+        this.BestDuty.TabIndex = 113;
+        this.BestDuty.Text = "Best Duty";
+        this.BestDuty.UseVisualStyleBackColor = true;
+        this.BestDuty.Click += new System.EventHandler(this.BestDuty_Click);
+        // 
+        // BestProb
+        // 
+        this.BestProb.Enabled = false;
+        this.BestProb.Location = new System.Drawing.Point(638, 222);
+        this.BestProb.Margin = new System.Windows.Forms.Padding(4);
+        this.BestProb.Name = "BestProb";
+        this.BestProb.Size = new System.Drawing.Size(100, 28);
+        this.BestProb.TabIndex = 114;
+        this.BestProb.Text = "Best Prob";
+        this.BestProb.UseVisualStyleBackColor = true;
+        this.BestProb.Click += new System.EventHandler(this.BestProb_Click);
+        // 
+        // BestOdd
+        // 
+        this.BestOdd.Enabled = false;
+        this.BestOdd.Location = new System.Drawing.Point(638, 258);
+        this.BestOdd.Margin = new System.Windows.Forms.Padding(4);
+        this.BestOdd.Name = "BestOdd";
+        this.BestOdd.Size = new System.Drawing.Size(100, 28);
+        this.BestOdd.TabIndex = 115;
+        this.BestOdd.Text = "Best Odd";
+        this.BestOdd.UseVisualStyleBackColor = true;
+        this.BestOdd.Click += new System.EventHandler(this.BestOdd_Click);
+        // 
         // Form1
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(1376, 767);
+        this.Controls.Add(this.BestOdd);
+        this.Controls.Add(this.BestProb);
+        this.Controls.Add(this.BestDuty);
+        this.Controls.Add(this.DutyLbl);
+        this.Controls.Add(this.Duty);
         this.Controls.Add(this.ProgressLbl);
         this.Controls.Add(this.progressBar1);
         this.Controls.Add(this.menuStrip1);
@@ -1165,6 +1233,11 @@
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     private System.Windows.Forms.ProgressBar progressBar1;
     private System.Windows.Forms.Label ProgressLbl;
+    private System.Windows.Forms.Label Duty;
+    private System.Windows.Forms.Label DutyLbl;
+    private System.Windows.Forms.Button BestDuty;
+    private System.Windows.Forms.Button BestProb;
+    private System.Windows.Forms.Button BestOdd;
   }
 }
 

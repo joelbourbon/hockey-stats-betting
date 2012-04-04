@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NHLBetter
 {
@@ -51,17 +52,9 @@ namespace NHLBetter
             TeamBetOn = teamBetOn;
         }
 
-        public BetType GetBetType()
-        {
-            return TypeOfBet;
-        }
-
-        public Match GetAssociatedMatch()
-        {
-            return AssociatedMatch;
-        }
-
-        // Virtual method for initialization
+        ////////////////////////////////////////////////////////////////////////////////////
+        /// INITIALIZERS
+        ////////////////////////////////////////////////////////////////////////////////////
         virtual public void Initialize()
         {
             UsedFields();
@@ -69,8 +62,10 @@ namespace NHLBetter
             IniGetOdd();
             IniGetPid();
             IniGetId();
-        }
 
+            // Bug fix 'é' token is replaced by '?' token, so we replace it with 'e' token
+            teamCity = teamCity.Replace('?', 'e');
+        }     //Initializer
         virtual protected void IniGetId()
         {
             var idStr = "";
@@ -80,56 +75,21 @@ namespace NHLBetter
                 idStr += iniString[index++];
             }
             betID = int.Parse(idStr);
-        }
-
-        public double GetOdd()
-        {
-            return Odd;
-        }
-
-        // Use of a string in the case of less-than-five-digit pids
-        public string GetPidString()
-        {
-            return Pid.ToString().Length == 5 ? Pid.ToString() : "0" + Pid;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        virtual protected void UsedFields()
-        {
-            AddAllLabelsToUsedFields("GamesPlayedLbl");
-        }
-
-        protected void AddAllLabelsToUsedFields(string GenericLbl)
-        {
-            var LblHome = GenericLbl.Insert(GenericLbl.IndexOf("Lbl"), "Home");
-            var LblAway = GenericLbl.Insert(GenericLbl.IndexOf("Lbl"), "Away");
-            usedFields.Add(GenericLbl);
-            usedFields.Add(LblHome);
-            usedFields.Add(LblAway);
-        }
-
-        // Virtual method for getting team city name
+        }    //Id Initializer
         virtual protected void IniGetTeam()
         {
             teamCity = "";
 
             var index = iniString.IndexOf("descActivite=\"") + "descActivite=\"".Length;
-            while(iniString[index] != '\"' && iniString[index] != ',')
+            while (iniString[index] != '\"' && iniString[index] != ',')
             {
                 teamCity += iniString[index++];
             }
-
-            // Bug fix 'é' token is replaced by '?' token, so we replace it with 'e' token
-            teamCity = teamCity.Replace('?', 'e');
-        }
-
-        // Virtual method for getting loto-quebec odds
+        }  //Team Initializer
         virtual protected void IniGetOdd()
         {
             var oddStr = "";
-            
+
             var index = iniString.IndexOf("<BR>") + "<BR>".Length;
             while (iniString[index] != '<')
             {
@@ -147,9 +107,7 @@ namespace NHLBetter
             }
 
             Odd = double.Parse(oddStr);
-        }
-
-        // Virtual method for getting loto-quebec product ID number of the bet-object
+        }   //Odd Initializer
         virtual protected void IniGetPid()
         {
             var pidStr = "";
@@ -161,6 +119,59 @@ namespace NHLBetter
             }
 
             Pid = int.Parse(pidStr);
+        }   //PID Initializer
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        /// GETTERS
+        ////////////////////////////////////////////////////////////////////////////////////
+        public double GetOdd()
+        {
+            return Odd;
+        }                //Odd Getter
+        public BetType GetBetType()
+        {
+            return TypeOfBet;
+        }           //BetType Getter
+        public Match GetAssociatedMatch()
+        {
+            return AssociatedMatch;
+        }     //AssociatedMatch getter
+        public double GetProb()
+        {
+            return GetProb(3);
+        }               //Default GetProb (precision of 3 decimals)
+        public double GetProb(int precision)
+        {
+            return Math.Round(prob, precision);
+        }  //Specific GetProb (variable number of decimals)
+        public double GetDuty()
+        {
+            return GetDuty(3);
+        }               //Default GetDuty (Precision of 3 decimals)
+        public double GetDuty(int precision)
+        {
+            return Math.Round(GetOdd() * GetProb(precision) / 100, precision);
+        }  //Specific GetDuty (variable number of decimals)
+        public string GetPidString()
+        {
+            return Pid.ToString().Length == 5 ? Pid.ToString() : "0" + Pid;
+        }          //PIDString getter
+
+        /// <summary>
+        /// 
+        /// </summary>
+        virtual protected void UsedFields()
+        {
+            AddAllLabelsToUsedFields("GamesPlayedLbl");
+        }
+
+        protected void AddAllLabelsToUsedFields(string GenericLbl)
+        {
+            var LblHome = GenericLbl.Insert(GenericLbl.IndexOf("Lbl"), "Home");
+            var LblAway = GenericLbl.Insert(GenericLbl.IndexOf("Lbl"), "Away");
+            usedFields.Add(GenericLbl);
+            usedFields.Add(LblHome);
+            usedFields.Add(LblAway);
         }
 
         // Gets the Match according to the team city
@@ -195,7 +206,7 @@ namespace NHLBetter
 
         public override string ToString()
         {
-            return "Not a bet (" + TypeOfBet + ")";
+            return "Not Implemented yet (" + TypeOfBet + ")";
         }
 
         virtual public void Probs()
