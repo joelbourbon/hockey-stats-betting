@@ -72,8 +72,8 @@ namespace NHLBetter
         {
             if (!special)
             {
-                //TeamBetAgainst is the Team on which this bet doesn't bet on
-                var TeamBetAgainst = (AssociatedMatch.TeamList[0].City == TeamBetOn.City
+                //Opponent is the Team on which this bet doesn't bet on
+                var Opponent = (AssociatedMatch.TeamList[0].City == TeamBetOn.City
                                           ? AssociatedMatch.TeamList[1]
                                           : AssociatedMatch.TeamList[0]);
 
@@ -93,7 +93,7 @@ namespace NHLBetter
                 //Gets prob1 AND gets a matchOver list of the two teams records
                 foreach(var match in TeamBetOn.MatchOverList)
                 {
-                    if(match.teamAgainstAbb == TeamBetAgainst.Abbreviation)
+                    if(match.teamAgainstAbb == Opponent.Abbreviation)
                     {
                         arrayOfMatchList.Add(match);
                     }
@@ -111,12 +111,12 @@ namespace NHLBetter
                 }
                 prob2 = arrayOfMatchList.Count > 0 ? (double) MoreShotsSameTeam_TBO/arrayOfMatchList.Count : 0.5;
 
-                foreach(var match in TeamBetAgainst.MatchOverList)
+                foreach(var match in Opponent.MatchOverList)
                 {
                     if ((match.shotsAgainst > numberOfShots && isMoreThan) || (match.shotsAgainst < numberOfShots && !isMoreThan))
                         MoreShotsOn_TBA++;
                 }
-                prob3 = TeamBetAgainst.GamesPlayed > 0 ? (double) MoreShotsOn_TBA/TeamBetAgainst.GamesPlayed : 0.5;
+                prob3 = Opponent.GamesPlayed > 0 ? (double) MoreShotsOn_TBA/Opponent.GamesPlayed : 0.5;
 
                 prob = proportion1*prob1 + proportion2*prob2 + proportion3*prob3;
                 prob *= 100;

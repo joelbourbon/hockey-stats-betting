@@ -227,15 +227,18 @@ namespace NHLBetter
             htmlDoc.write(rawData);
             var htmlStr = htmlDoc.body.innerHTML;
 
-            //Todo Find a better fix for shots on goal
+            // Todo Find a better fix for shots on goal
+            // iniString of shotsongoalbets did not contain the team. 
+            // This function inserts the correct team at the beginning of the iniString
             htmlStr = FixHtmlStrForShotsOnGoal(htmlStr);
 
             //Gets boutonTypeSelected list of strings
             var boutonTypeSelectedList = StringSeparator(htmlStr, "boutonTypeSelected", "<TD class=");
 
-            //DEBUG
+            //DEBUG ------
             for (var i = 0; i < 12; i++)
                 BetsOfEachType[i] = 0;
+            // -----------
 
             foreach (var boutonStr in boutonTypeSelectedList)
             {
@@ -252,11 +255,13 @@ namespace NHLBetter
             //If these two lists have the same size, then we can assume the lists are good.
             if (betStrList.Count != betList.Count)
             {
+                //DEBUG -----------
                 BetsOfEachType[0]--;
                 for (var i = 1; i < 12; i++)
                 {
                     BetsOfEachType[i] += BetsOfEachType[i - 1];
                 }
+                // ----------------
 
                 parsingMethod++;
                 if (parsingMethod > 1)
@@ -490,34 +495,6 @@ namespace NHLBetter
             }
 
             return betList;
-        }
-
-        public string ConvertMOJToNHL(string MOJCity)
-        {
-            //Some cities cannot be simply converted to caps, they are written differently from one website to the other
-            switch (MOJCity)
-            {
-                case "New York-I":
-                    MOJCity = "NY ISLANDERS";
-                    break;
-                case "New York-R":
-                    MOJCity = "NY RANGERS";
-                    break;
-                case "Floride":
-                    MOJCity = "FLORIDA";
-                    break;
-                case "Saint Louis":
-                    MOJCity = "ST LOUIS";
-                    break;
-                case "Philadelphie":
-                    MOJCity = "PHILADELPHIA";
-                    break;
-
-
-                default:
-                    break;
-            }
-            return MOJCity.ToUpper();
         }
 
         public void ClearLists()

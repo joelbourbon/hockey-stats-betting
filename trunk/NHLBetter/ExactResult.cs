@@ -90,8 +90,8 @@ public class ExactResult:Bet
 
     public override void Probs()
     {
-        //TeamBetAgainst is the Team on which this bet doesn't bet on
-        var TeamBetAgainst = (AssociatedMatch.TeamList[0].City == TeamBetOn.City
+        //Opponent is the Team on which this bet doesn't bet on
+        var Opponent = (AssociatedMatch.TeamList[0].City == TeamBetOn.City
                                   ? AssociatedMatch.TeamList[1]
                                   : AssociatedMatch.TeamList[0]);
 
@@ -110,7 +110,7 @@ public class ExactResult:Bet
 
         prob_TBO = (double)MatchList_TBO.Count / TeamBetOn.GamesPlayed;
 
-        foreach (var match in TeamBetAgainst.MatchOverList)
+        foreach (var match in Opponent.MatchOverList)
         {
             if (match.goalsFor == losingTeamScore)
             {
@@ -118,7 +118,7 @@ public class ExactResult:Bet
             }
         }
 
-        prob_TBA = (double)MatchList_TBA.Count / TeamBetAgainst.GamesPlayed;
+        prob_TBA = (double)MatchList_TBA.Count / Opponent.GamesPlayed;
 
         // Probability that the TBO score winningTeamScore goals AND that the TBA score losingTeamScore goals
         prob = prob_TBA*prob_TBO*100;

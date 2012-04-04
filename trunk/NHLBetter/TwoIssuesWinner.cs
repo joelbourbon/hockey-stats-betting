@@ -27,8 +27,8 @@ namespace NHLBetter
             prob = 0;
             var probTie = 0.0;
 
-            //TeamBetAgainst is the Team on which this bet doesn't bet on
-            var TeamBetAgainst = (AssociatedMatch.TeamList[0].City == TeamBetOn.City ? AssociatedMatch.TeamList[1] : AssociatedMatch.TeamList[0]);
+            //Opponent is the Team on which this bet doesn't bet on
+            var Opponent = (AssociatedMatch.TeamList[0].City == TeamBetOn.City ? AssociatedMatch.TeamList[1] : AssociatedMatch.TeamList[0]);
 
             const int precision = 10;
             var randVar = 0;
@@ -37,8 +37,8 @@ namespace NHLBetter
             var arrayOfMatchList_TBA = new List<MatchOver>[precision];
             var probArray_TBO = new double[precision];
             var probArray_TBA = new double[precision];
-            var OTProportion = ((double)TeamBetAgainst.OverTimeLosses/TeamBetAgainst.GamesPlayed) /
-                (((double)TeamBetAgainst.OverTimeLosses / TeamBetAgainst.GamesPlayed) + ((double)TeamBetOn.OverTimeLosses / TeamBetOn.GamesPlayed));
+            var OTProportion = ((double)Opponent.OverTimeLosses/Opponent.GamesPlayed) /
+                (((double)Opponent.OverTimeLosses / Opponent.GamesPlayed) + ((double)TeamBetOn.OverTimeLosses / TeamBetOn.GamesPlayed));
             
             while (randVar != precision)
             {
@@ -56,7 +56,7 @@ namespace NHLBetter
 
                 arrayOfMatchList_TBA[randVar] = new List<MatchOver>();
 
-                foreach (var match in TeamBetAgainst.MatchOverList)
+                foreach (var match in Opponent.MatchOverList)
                 {
                     if (match.goalsFor == randVar)
                     {
@@ -64,7 +64,7 @@ namespace NHLBetter
                     }
                 }
 
-                probArray_TBA[randVar] = (double)arrayOfMatchList_TBA[randVar].Count / TeamBetAgainst.GamesPlayed;
+                probArray_TBA[randVar] = (double)arrayOfMatchList_TBA[randVar].Count / Opponent.GamesPlayed;
                 randVar++;
             }
 
