@@ -66,6 +66,7 @@
     <Compile Include="MatchOver.cs" />
     <Compile Include="MostMinutesOfPenalty.cs" />
     <Compile Include="NumberOfGoals.cs" />
+    <Compile Include="Overtime.cs" />
     <Compile Include="PlayerDuel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

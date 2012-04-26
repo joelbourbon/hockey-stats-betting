@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
@@ -31,11 +32,13 @@ namespace NHLBetter
 
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
+            ProgressLbl.Text = @"Clearing Lists";
             listBox1.Items.Clear();
             AvailableBetList.Items.Clear();
 
             Today.RefreshData();
 
+            ProgressLbl.Text = @"Filling up lists";
             foreach (var match in Today.MatchList)
             {
                 listBox1.Items.Add(match.ToString());
@@ -51,7 +54,9 @@ namespace NHLBetter
                 listBox1.Items.Clear();
             }
 
+            
             FilterFactor_SelectedIndexChanged(sender, e);
+            ProgressLbl.Text = "";
         }
 
 
@@ -63,28 +68,24 @@ namespace NHLBetter
             loadToolStripMenuItem1.Enabled = Directory.GetFiles(@"..\..\Saved Days\").Length > 0;
         }
 
-        private void SavePreferences()
-        {
-            MessageBox.Show(new Form1(), @"Test");
-
-            WriteIni();
-        }
-
         private static void ReadIni()
         {
             //Reads ini file
-        }
-
-        private static void WriteIni()
-        {
-            //Writes to ini file
+        
         }
 
         private void Form1_Closing(object sender, FormClosingEventArgs e)
         {
-            Today.ClearLists();
+            ClearLists();
+            Today = null;
         }
 
+        private void ClearLists()
+        {
+            Today.ClearLists();
+            if(boldControlList != null)
+                boldControlList.Clear();
+        }
 
         private void ThreeIssuesWinnerCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -92,15 +93,13 @@ namespace NHLBetter
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = listBox1.SelectedIndex;
+            var index = listBox1.SelectedIndex;
             var selectedMatch = Today.MatchList[index];
 
             Odd.Text  = @"";
             Pid.Text  = @"";
             Prob.Text = @"%";
             Duty.Text = @"";
-
-            var cd = Directory.GetCurrentDirectory();
 
             //Home Display Management
             pictureBox1.ImageLocation = @"..\\..\\" + Today.MatchList[index].GetHomeTeam().LogoPath;
@@ -154,7 +153,7 @@ namespace NHLBetter
 
             if (Today.BetList != null)
             {
-                foreach (Bet bet in Today.BetList)
+                foreach (var bet in Today.BetList)
                 {
                     if (bet.AssociatedMatch != null &&
                         selectedMatch.TeamList[0].City == bet.AssociatedMatch.TeamList[0].City &&
@@ -220,6 +219,7 @@ namespace NHLBetter
             FilterBetTypeDropDown.Visible = false;
             FilterUpDown.Visible = true;
             FilterUpDown.Minimum = 0;
+            FilterUpDown.Increment = new decimal(1);
 
             //Specific control visibility & values
             switch ((FilterFactors)FilterFactor.SelectedIndex)
@@ -232,22 +232,27 @@ namespace NHLBetter
                     FilterUpDown.Maximum = 100; // %
                     break;
                 case FilterFactors.eOddsOver:
+                    FilterUpDown.Increment = new decimal(0.5);
                     FilterUpDown.DecimalPlaces = 2;
                     FilterUpDown.Value = new decimal(1.69);
                     FilterUpDown.Maximum = 200; // ODD
                     break;
                 case FilterFactors.eOddsUnder:
+                    FilterUpDown.Increment = new decimal(0.5);
                     FilterUpDown.DecimalPlaces = 2;
                     FilterUpDown.Value = new decimal(1.71);
                     FilterUpDown.Maximum = 200; // ODD
                     break;
                 case FilterFactors.ePID:
                     var betIndex = AvailableBetList.SelectedIndex;
-                    var betItem = (Bet) AvailableBetList.Items[betIndex];
-                    Unit.Text = "";
-                    FilterUpDown.DecimalPlaces = 0;
-                    FilterUpDown.Value = betItem.Pid;
-                    FilterUpDown.Maximum = 99999;
+                    if(betIndex != -1)
+                    {
+                        var betItem = (Bet)AvailableBetList.Items[betIndex];
+                        Unit.Text = "";
+                        FilterUpDown.DecimalPlaces = 0;
+                        FilterUpDown.Value = betItem.Pid;
+                        FilterUpDown.Maximum = 99999;
+                    }
                     break;
                 case FilterFactors.eTypeOfBet:
                     FilterBetTypeDropDown.Visible = true;
@@ -259,6 +264,7 @@ namespace NHLBetter
                 case FilterFactors.eDutyUnder:
                     FilterUpDown.DecimalPlaces = 3;
                     FilterUpDown.Value = new decimal(1.000);
+                    FilterUpDown.Increment = new decimal(0.01);
                     FilterUpDown.Maximum = 3;
                     break;
                 }
@@ -269,45 +275,46 @@ namespace NHLBetter
         private void FilterUpDown_ValueChanged(object sender, EventArgs e)
         {
             FilterItems.Items.Clear();
-
-            foreach (var bet in Today.BetList)
+            if (Today.BetList != null)
             {
-                if (bet.GetAssociatedMatch() != null)
+                foreach (var bet in Today.BetList)
                 {
-                    switch ((FilterFactors)FilterFactor.SelectedIndex)
+                    if (bet.GetAssociatedMatch() != null)
                     {
-                        case FilterFactors.eHappeningProbabilityOver:
-                            if (bet.prob >= (double) FilterUpDown.Value)
-                                FilterItems.Items.Add(bet);
-                            break;
-                        case FilterFactors.eOddsOver:
-                            if (bet.GetOdd() >= (double) FilterUpDown.Value)
-                                FilterItems.Items.Add(bet);
-                            break;
-                        case FilterFactors.eHappeningProbabilityUnder:
-                            if (bet.prob <= (double) FilterUpDown.Value)
-                                FilterItems.Items.Add(bet);
-                            break;
-                        case FilterFactors.eOddsUnder:
-                            if (bet.GetOdd() <= (double) FilterUpDown.Value)
-                                FilterItems.Items.Add(bet);
-                            break;
-                        case FilterFactors.ePID:
-                            if (bet.Pid == (int) FilterUpDown.Value)
-                                FilterItems.Items.Add(bet);
-                            break;
-                        case FilterFactors.eDutyOver:
-                            if (bet.GetDuty() >= (int)FilterUpDown.Value)
-                                FilterItems.Items.Add(bet);
-                            break;
-                        case FilterFactors.eDutyUnder:
-                            if (bet.GetDuty() <= (int)FilterUpDown.Value)
-                                FilterItems.Items.Add(bet);
-                            break;
+                        switch ((FilterFactors)FilterFactor.SelectedIndex)
+                        {
+                            case FilterFactors.eHappeningProbabilityOver:
+                                if (bet.prob >= (double)FilterUpDown.Value)
+                                    FilterItems.Items.Add(bet);
+                                break;
+                            case FilterFactors.eOddsOver:
+                                if (bet.GetOdd() >= (double)FilterUpDown.Value)
+                                    FilterItems.Items.Add(bet);
+                                break;
+                            case FilterFactors.eHappeningProbabilityUnder:
+                                if (bet.prob <= (double)FilterUpDown.Value)
+                                    FilterItems.Items.Add(bet);
+                                break;
+                            case FilterFactors.eOddsUnder:
+                                if (bet.GetOdd() <= (double)FilterUpDown.Value)
+                                    FilterItems.Items.Add(bet);
+                                break;
+                            case FilterFactors.ePID:
+                                if (bet.Pid == (int)FilterUpDown.Value)
+                                    FilterItems.Items.Add(bet);
+                                break;
+                            case FilterFactors.eDutyOver:
+                                if (bet.GetDuty() >= (int)FilterUpDown.Value)
+                                    FilterItems.Items.Add(bet);
+                                break;
+                            case FilterFactors.eDutyUnder:
+                                if (bet.GetDuty() <= (int)FilterUpDown.Value)
+                                    FilterItems.Items.Add(bet);
+                                break;
+                        }
                     }
                 }
             }
-
             FilterItems_SelectedIndexChanged(sender, e);
         }
 
@@ -330,22 +337,28 @@ namespace NHLBetter
         private void AutoSelect(Bet betItem)
         {
             //Selects the corresponding index in the matchList
-            foreach (var match in Today.MatchList)
+            if (Today.MatchList != null)
             {
-                if (betItem.GetAssociatedMatch() != null && betItem.GetAssociatedMatch().Equals(match))
+                foreach (var match in Today.MatchList)
                 {
-                    listBox1.SelectedIndex = listBox1.Items.IndexOf(match.ToString());
-                    break;
+                    if (betItem.GetAssociatedMatch() != null && betItem.GetAssociatedMatch().Equals(match))
+                    {
+                        listBox1.SelectedIndex = listBox1.Items.IndexOf(match.ToString());
+                        break;
+                    }
                 }
             }
 
             //Selects the corresponding index in the betList
-            foreach (Bet bet in Today.BetList)
+            if (Today.BetList != null)
             {
-                if (betItem == bet)
+                foreach (var bet in Today.BetList)
                 {
-                    AvailableBetList.SelectedIndex = AvailableBetList.Items.IndexOf(bet);
-                    break;
+                    if (betItem == bet)
+                    {
+                        AvailableBetList.SelectedIndex = AvailableBetList.Items.IndexOf(bet);
+                        break;
+                    }
                 }
             }
         }
@@ -353,58 +366,61 @@ namespace NHLBetter
         private void FilterBetTypeDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             FilterItems.Items.Clear();
-            foreach (var bet in Today.BetList)
+            if (Today.BetList != null)
             {
-                switch (FilterBetTypeDropDown.SelectedIndex)
+                foreach (var bet in Today.BetList)
                 {
-                    case 0:
-                        if (bet.GetBetType() == Bet.BetType.ThreeIssuesWinnerBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 1:
-                        if (bet.GetBetType() == Bet.BetType.TwoIssuesWinnerBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 2:
-                        if (bet.GetBetType() == Bet.BetType.WinnerWithGoalDifferenceBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 3:
-                        if (bet.GetBetType() == Bet.BetType.NumberOfGoalsBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 4:
-                        if (bet.GetBetType() == Bet.BetType.PlayerDuelBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 5:
-                        if (bet.GetBetType() == Bet.BetType.YesOrNoBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 6:
-                        if (bet.GetBetType() == Bet.BetType.ShotsOnGoalBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 7:
-                        if (bet.GetBetType() == Bet.BetType.MostMinutesOfPenaltyBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 8:
-                        if (bet.GetBetType() == Bet.BetType.TeamWithMoreHitsBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 9:
-                        if (bet.GetBetType() == Bet.BetType.FirstGoalBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 10:
-                        if (bet.GetBetType() == Bet.BetType.GainMarginBet)
-                            FilterItems.Items.Add(bet);
-                        break;
-                    case 11:
-                        if (bet.GetBetType() == Bet.BetType.ExactScoreBet)
-                            FilterItems.Items.Add(bet);
-                        break;
+                    switch (FilterBetTypeDropDown.SelectedIndex)
+                    {
+                        case 0:
+                            if (bet.GetBetType() == Bet.BetType.ThreeIssuesWinnerBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 1:
+                            if (bet.GetBetType() == Bet.BetType.TwoIssuesWinnerBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 2:
+                            if (bet.GetBetType() == Bet.BetType.WinnerWithGoalDifferenceBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 3:
+                            if (bet.GetBetType() == Bet.BetType.NumberOfGoalsBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 4:
+                            if (bet.GetBetType() == Bet.BetType.PlayerDuelBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 5:
+                            if (bet.GetBetType() == Bet.BetType.YesOrNoBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 6:
+                            if (bet.GetBetType() == Bet.BetType.ShotsOnGoalBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 7:
+                            if (bet.GetBetType() == Bet.BetType.MostMinutesOfPenaltyBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 8:
+                            if (bet.GetBetType() == Bet.BetType.TeamWithMoreHitsBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 9:
+                            if (bet.GetBetType() == Bet.BetType.FirstGoalBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 10:
+                            if (bet.GetBetType() == Bet.BetType.GainMarginBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                        case 11:
+                            if (bet.GetBetType() == Bet.BetType.ExactScoreBet)
+                                FilterItems.Items.Add(bet);
+                            break;
+                    }
                 }
             }
             FilterItems_SelectedIndexChanged(sender, e);
@@ -473,7 +489,7 @@ namespace NHLBetter
             var betItemWithBestDuty = (Bet) AvailableBetList.Items[0];
             var bestDuty = betItemWithBestDuty.GetDuty();
 
-            foreach (Bet betItem in AvailableBetList.Items)
+            foreach (var betItem in Today.BetList)
             {
                 if(betItem.GetDuty() > bestDuty)
                 {
@@ -490,7 +506,7 @@ namespace NHLBetter
             var betItemWithBestProb = (Bet)AvailableBetList.Items[0];
             var bestProb = betItemWithBestProb.GetProb();
 
-            foreach (Bet betItem in AvailableBetList.Items)
+            foreach (var betItem in Today.BetList)
             {
                 if (betItem.GetProb() > bestProb)
                 {
@@ -507,7 +523,7 @@ namespace NHLBetter
             var betItemWithBestOdd = (Bet)AvailableBetList.Items[0];
             var bestOdd = betItemWithBestOdd.GetOdd();
 
-            foreach (Bet betItem in AvailableBetList.Items)
+            foreach (var betItem in Today.BetList)
             {
                 if (betItem.GetOdd() > bestOdd)
                 {
