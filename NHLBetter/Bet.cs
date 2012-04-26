@@ -9,6 +9,7 @@ namespace NHLBetter
         {
             NoType,
             ThreeIssuesWinnerBet,
+            Overtime,
             TwoIssuesWinnerBet,
             NumberOfGoalsBet,
             WinnerWithGoalDifferenceBet,

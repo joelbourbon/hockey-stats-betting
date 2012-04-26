@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.Windows.Forms;
@@ -12,7 +10,7 @@ namespace NHLBetter
     {
         public List<Match> MatchList = new List<Match>();
         public List<Bet> BetList = new List<Bet>();
-        private int parsingMethod = 0;
+        private int howManyShotsOnGoalFix = 0;
         private int[] BetsOfEachType = new int[12];
         public string nhlRawData;
         public string mojRawData;
@@ -27,8 +25,6 @@ namespace NHLBetter
             //Clears the lists if they exist
             ClearLists();
 
-            parsingMethod = 0;
-
             MatchList = GetListOfGamesToday("http://www.nhl.com/ice/schedulebyday.htm#?navid=nav-sch-today", isLoadCalled);
             BetList = GetListOfBetsToday("https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2", isLoadCalled);
             
@@ -39,6 +35,7 @@ namespace NHLBetter
         // This method queries nhl.com to get games available today
         // Parameters : 
         // adress       The network adress to get source code from
+        // isLoadCalled Indicates is data comes from loaded day or actual day
         public List<Match> GetListOfGamesToday(string adress , bool isLoadCalled)
         {
             var matchList = new List<Match>();
@@ -191,11 +188,17 @@ namespace NHLBetter
         private static string FixHtmlStrForShotsOnGoal(string htmlStr)
         {
             var startIndex = 0;
+            var endIndex = 0;
+            var index = 0;
+
             while (htmlStr.IndexOf("Total shots on goal in the match for ", startIndex) != -1)
             {
-                var index = htmlStr.IndexOf("Total shots on goal in the match for ", startIndex) + "Total shots on goal in the match for ".Length;
-                var endIndex = htmlStr.IndexOf(" (excluding SO)", index);
-                startIndex = index;
+                startIndex = htmlStr.IndexOf("Total shots on goal in the match for ", startIndex) + "Total shots on goal in the match for ".Length;
+                endIndex = htmlStr.IndexOf(" (excluding SO)", index);
+
+                if (endIndex == -1)
+                    endIndex = htmlStr.IndexOf(" (excluding overtime)", index);
+                
                 var teamStr = "";
                 
                 teamStr = htmlStr.Substring(startIndex, endIndex - startIndex);
@@ -212,6 +215,45 @@ namespace NHLBetter
             return htmlStr;
         }
 
+        private string FixHtmlStrForOvertime(string htmlStr)
+        {
+            var index = 0;
+
+            while (htmlStr.IndexOf("Will the match end in overtime?", index) != -1)
+            {
+                index = htmlStr.IndexOf("Will the match end in overtime?");
+
+                //Removes the sentence
+                htmlStr = htmlStr.Remove(index, "Will the match end in overtime?".Length);
+                var teamStrRaw = "";
+                var teamStr = "";
+                
+                while (!teamStrRaw.Contains("vs "))
+                {
+                    teamStrRaw = teamStrRaw.Insert(0, htmlStr[index--].ToString());
+                }
+
+                var indexForTeam = "vs ".Length;
+                while (teamStrRaw[indexForTeam] != '<')
+                {
+                    teamStr += teamStrRaw[indexForTeam++];
+                }
+
+                //Finds next index of gabarit
+                index = htmlStr.IndexOf("gabarit", index);
+                htmlStr = htmlStr.Insert(index, teamStr);
+
+                //Position after gabarit
+                index = index + "gabarit".Length + teamStr.Length;
+
+                //Finds next index of gabarit
+                index = htmlStr.IndexOf("gabarit", index);
+                htmlStr = htmlStr.Insert(index, teamStr);
+            }
+
+            return htmlStr;
+        }
+
         public List<Bet> GetListOfBetsToday(string adress, bool isLoadCalled)
         {
             var betList = new List<Bet>();
@@ -220,17 +262,24 @@ namespace NHLBetter
             var wc = new WebClient();
             var betStrList = new List<string>();
             var dateStrList = new List<string>();
+            
 
             var rawData = isLoadCalled ? mojRawData : Encoding.ASCII.GetString(wc.DownloadData(adress));
             mojRawData = rawData;
 
             htmlDoc.write(rawData);
             var htmlStr = htmlDoc.body.innerHTML;
+            while (htmlStr.Contains("How many shots on goal will "))
+            {
+                howManyShotsOnGoalFix++;
+                htmlStr = htmlStr.Remove(htmlStr.IndexOf("How many shots on goal will "), "How many shots on goal will ".Length);
+            }
 
             // Todo Find a better fix for shots on goal
             // iniString of shotsongoalbets did not contain the team. 
             // This function inserts the correct team at the beginning of the iniString
             htmlStr = FixHtmlStrForShotsOnGoal(htmlStr);
+            htmlStr = FixHtmlStrForOvertime(htmlStr);
 
             //Gets boutonTypeSelected list of strings
             var boutonTypeSelectedList = StringSeparator(htmlStr, "boutonTypeSelected", "<TD class=");
@@ -262,10 +311,6 @@ namespace NHLBetter
                     BetsOfEachType[i] += BetsOfEachType[i - 1];
                 }
                 // ----------------
-
-                parsingMethod++;
-                if (parsingMethod > 1)
-                    return null;
 
                 // Recursive call if the counts are not equal, we try parsing htmlStr in a different way
                 betList =
@@ -364,12 +409,17 @@ namespace NHLBetter
             if (boutonStr.Contains("Correct score"))
             {
                 BetType = Bet.BetType.ExactScoreBet;
-                multiplicator = 37;
+                multiplicator = 31;
             }
             else if (boutonStr.Contains("Match winner - 3 way") && !boutonStr.Contains("Total goals"))
             {
                 BetType = Bet.BetType.ThreeIssuesWinnerBet;
                 multiplicator = 3;
+            }
+            else if (boutonStr.Contains("Overtime") && !boutonStr.Contains("Total goals"))
+            {
+                BetType = Bet.BetType.Overtime;
+                multiplicator = 2;
             }
             else if (boutonStr.Contains("Match winner - 2 way"))
             {
@@ -428,11 +478,11 @@ namespace NHLBetter
             var nbFields = int.Parse(nbStr);
             var nbBets = 0;
 
-            // The number of bets for shots on goal is function of Montreal playing...
-            if (parsingMethod == 1 && BetType == Bet.BetType.ShotsOnGoalBet)
-                nbBets = (nbFields- 2) * multiplicator + 10;
+            // The number of bets depends on how miseojeu decided to make their betList
+            if (BetType == Bet.BetType.ShotsOnGoalBet)
+                nbBets = (nbFields - howManyShotsOnGoalFix) * 2 + howManyShotsOnGoalFix * 5;
             else
-                nbBets = nbFields*multiplicator;
+                nbBets = nbFields * multiplicator;
 
             for (var i = 0; i < nbBets ; i++)
             {
@@ -440,6 +490,10 @@ namespace NHLBetter
                 {
                     case Bet.BetType.ThreeIssuesWinnerBet:
                         betList.Add(new ThreeIssuesWinner());
+                        BetsOfEachType[0]++;
+                        break;
+                    case Bet.BetType.Overtime:
+                        betList.Add(new Overtime());
                         BetsOfEachType[0]++;
                         break;
                     case Bet.BetType.TwoIssuesWinnerBet:
