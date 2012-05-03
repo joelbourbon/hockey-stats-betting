@@ -136,8 +136,12 @@ namespace NHLBetter
 
         public override string ToString()
         {
-            return (decision == GameDecision.eW ? "Won" : decision == GameDecision.eL ? "Lost" : "Tied") + 
-                " " + goalsFor + " - " + goalsAgainst + " against " + teamAgainstAbb + " on " + date.ToString().Remove(10);
+            var decisionStr = (decision == GameDecision.eW ? 
+                              "Won" : decision == GameDecision.eL ? 
+                              "Lost" : (goalsFor > goalsAgainst) ? 
+                              "Won in Overtime" : "Lost in Overtime") + " ";
+
+            return decisionStr + goalsFor + " - " + goalsAgainst + " against " + teamAgainstAbb + " on " + date.ToString().Remove(10);
         }
 
     }
