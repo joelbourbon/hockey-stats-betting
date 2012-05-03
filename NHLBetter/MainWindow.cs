@@ -186,7 +186,7 @@ namespace NHLBetter
         private void AvailableBetList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var betIndex = AvailableBetList.SelectedIndex;
-            var betItem = (Bet) AvailableBetList.Items[betIndex];
+            var betItem = (Bet) AvailableBetList.Items[betIndex == -1 ? 1 : betIndex];
 
             //Displays the betItem attributes
             Odd.Text = betItem.GetOdd().ToString();
@@ -228,20 +228,20 @@ namespace NHLBetter
                 case FilterFactors.eHappeningProbabilityUnder:
                     Unit.Text = @"%";
                     FilterUpDown.DecimalPlaces = 0;
-                    FilterUpDown.Value = 50;
                     FilterUpDown.Maximum = 100; // %
+                    FilterUpDown.Value = 50;
                     break;
                 case FilterFactors.eOddsOver:
                     FilterUpDown.Increment = new decimal(0.5);
                     FilterUpDown.DecimalPlaces = 2;
-                    FilterUpDown.Value = new decimal(1.69);
                     FilterUpDown.Maximum = 200; // ODD
+                    FilterUpDown.Value = new decimal(1.69);
                     break;
                 case FilterFactors.eOddsUnder:
                     FilterUpDown.Increment = new decimal(0.5);
                     FilterUpDown.DecimalPlaces = 2;
-                    FilterUpDown.Value = new decimal(1.71);
                     FilterUpDown.Maximum = 200; // ODD
+                    FilterUpDown.Value = new decimal(1.71);
                     break;
                 case FilterFactors.ePID:
                     var betIndex = AvailableBetList.SelectedIndex;
@@ -250,8 +250,8 @@ namespace NHLBetter
                         var betItem = (Bet)AvailableBetList.Items[betIndex];
                         Unit.Text = "";
                         FilterUpDown.DecimalPlaces = 0;
-                        FilterUpDown.Value = betItem.Pid;
                         FilterUpDown.Maximum = 99999;
+                        FilterUpDown.Value = betItem.Pid;
                     }
                     break;
                 case FilterFactors.eTypeOfBet:
@@ -263,9 +263,9 @@ namespace NHLBetter
                 case FilterFactors.eDutyOver:
                 case FilterFactors.eDutyUnder:
                     FilterUpDown.DecimalPlaces = 3;
+                    FilterUpDown.Maximum = 3;
                     FilterUpDown.Value = new decimal(1.000);
                     FilterUpDown.Increment = new decimal(0.01);
-                    FilterUpDown.Maximum = 3;
                     break;
                 }
 
@@ -320,7 +320,7 @@ namespace NHLBetter
 
         private void ComputeProb_Click(object sender, EventArgs e)
         {
-            int betIndex = AvailableBetList.SelectedIndex;
+            var betIndex = AvailableBetList.SelectedIndex;
             var betItem = (Bet) AvailableBetList.Items[betIndex];
 
             //Recomputes the probability to help debugging
@@ -330,7 +330,7 @@ namespace NHLBetter
         private void FilterItems_SelectedIndexChanged(object sender, EventArgs e)
         {
             var betIndex = FilterItems.SelectedIndex;
-            if (betIndex != -1)
+            if(betIndex != -1)
                 AutoSelect((Bet)FilterItems.Items[betIndex]);
         }
 

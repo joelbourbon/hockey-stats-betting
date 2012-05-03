@@ -18,10 +18,10 @@ namespace NHLBetter
 
         public Match(Team awayTeam, Team homeTeam, double timeOfGame, bool isBetOver) 
         {
-            this.TeamList.Add(awayTeam);
-            this.TeamList.Add(homeTeam);
-            this.TimeOfGame = timeOfGame;
-            this.IsBetOver = isBetOver;
+            TeamList.Add(awayTeam);
+            TeamList.Add(homeTeam);
+            TimeOfGame = timeOfGame;
+            IsBetOver = isBetOver;
         }
 
         public List<Team> TeamList = new List<Team>();
@@ -30,22 +30,24 @@ namespace NHLBetter
 
         public bool GetIsBetOver()
         {
-            return this.IsBetOver;
+            return IsBetOver;
         }
 
         public Team GetAwayTeam()
         {
-            return this.TeamList[(int)HomeAway.Away];
+            return TeamList[(int)HomeAway.Away];
         }
 
         public Team GetHomeTeam()
         {
-            return this.TeamList[(int)HomeAway.Home];
+            return TeamList[(int)HomeAway.Home];
         }
 
         public override string ToString()
         {
-            return this.GetHomeTeam().City + " vs " + GetAwayTeam().City + "\n";
+            //Creates a timeOfGame string : Format = (xxhyy)
+            var timeOfGame = " (" + Math.Floor(TimeOfGame) + "h" + (TimeOfGame%1 > 0 ? (TimeOfGame%1*60).ToString() : "00") + ")";
+            return GetHomeTeam().City + " vs " + GetAwayTeam().City + timeOfGame +"\n";
         }
 
         // override object.Equals
