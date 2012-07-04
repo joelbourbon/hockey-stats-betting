@@ -24,10 +24,32 @@ namespace NHLBetter
             
             //Clears the lists if they exist
             ClearLists();
+            try
+            {
+                MatchList = GetListOfGamesToday("http://www.nhl.com/ice/schedulebyday.htm#?navid=nav-sch-today", isLoadCalled);
+                BetList = GetListOfBetsToday("https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2", isLoadCalled);
+            }
+            catch(NHLBetterException e)
+            {
+                switch(e.type)
+                {
+                    case NHLBetterException.Type.BetListException:
+                        var dr = MessageBox.Show(e.Message, @"error", MessageBoxButtons.YesNo);
+                        if (dr.ToString() == "Yes")
+                        {
+                            var MOJBets = (List<Bet>) (e.objectList.ToArray()[0]);
+                            var expectedBets = (List<Bet>)(e.objectList.ToArray()[1]);
 
-            MatchList = GetListOfGamesToday("http://www.nhl.com/ice/schedulebyday.htm#?navid=nav-sch-today", isLoadCalled);
-            BetList = GetListOfBetsToday("https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2", isLoadCalled);
-            
+                            //This section would be used to debug betlists. Still in progress.
+                        }
+                        break;
+                    case NHLBetterException.Type.MatchListException:
+                        MessageBox.Show(e.Message, @"error", MessageBoxButtons.OK);
+                        break;
+                }
+                
+            }
+
             Cursor.Current = Cursors.Default;
         }
 
@@ -50,64 +72,71 @@ namespace NHLBetter
             htmlDoc.write(rawData);
             var htmlStr = htmlDoc.body.innerHTML;
 
-            // Gets wanted arrays only
-            htmlStr = htmlStr.Substring(htmlStr.IndexOf("VISITING TEAM"),
-                                        htmlStr.LastIndexOf("</TBODY>") - htmlStr.IndexOf("VISITING TEAM"));
-
-            while (htmlStr.Contains("</TR>") && htmlStr.LastIndexOf("<TR>") > -1 && htmlStr.LastIndexOf("/TR") > -1)
+            try
             {
-                var startIndex = htmlStr.LastIndexOf("<TR>");
-                var endIndex = htmlStr.LastIndexOf("</TR>") + "</TR>".Length;
-
-                if (startIndex > -1 && endIndex > -1)
+                // Gets wanted arrays only
+                htmlStr = htmlStr.Substring(htmlStr.IndexOf("VISITING TEAM"),
+                                            htmlStr.LastIndexOf("</TBODY>") - htmlStr.IndexOf("VISITING TEAM"));
+            
+                while (htmlStr.Contains("</TR>") && htmlStr.LastIndexOf("<TR>") > -1 && htmlStr.LastIndexOf("/TR") > -1)
                 {
-                    var newStr = htmlStr.Substring(startIndex, endIndex - startIndex);
+                    var startIndex = htmlStr.LastIndexOf("<TR>");
+                    var endIndex = htmlStr.LastIndexOf("</TR>") + "</TR>".Length;
 
-                    if (!newStr.Contains("VISITING TEAM") && newStr != "")
+                    if (startIndex > -1 && endIndex > -1)
                     {
-                        matchStr.Add(newStr);
-                        htmlStr = htmlStr.Remove(startIndex, endIndex - startIndex);
-                    }
-                    else if (newStr.Contains("VISITING TEAM"))
-                    {
-                        htmlStr = htmlStr.Remove(startIndex, endIndex - startIndex);
+                        var newStr = htmlStr.Substring(startIndex, endIndex - startIndex);
+
+                        if (!newStr.Contains("VISITING TEAM") && newStr != "")
+                        {
+                            matchStr.Add(newStr);
+                            htmlStr = htmlStr.Remove(startIndex, endIndex - startIndex);
+                        }
+                        else if (newStr.Contains("VISITING TEAM"))
+                        {
+                            htmlStr = htmlStr.Remove(startIndex, endIndex - startIndex);
+                        }
                     }
                 }
-            }
 
-            foreach (var matchString in matchStr)
+                foreach (var matchString in matchStr)
+                {
+                    // String indexes
+                    var startIndexAwayTeam = matchString.IndexOf("rel=") + "rel=".Length;
+                    var startIndexHomeTeam = matchString.LastIndexOf("rel=") + "rel=".Length;
+                    var startIndexTimeOfGame = matchString.IndexOf("skedStartTimeLocal>") + "skedStartTimeLocal>".Length;
+                    var endIndexAwayTeam = startIndexAwayTeam + "ABB".Length;
+                    var endIndexHomeTeam = startIndexHomeTeam + "ABB".Length;
+                    var endIndexTimeOfGame = startIndexTimeOfGame + "HH:MM AM".Length;
+                    var isBetOver = false;
+
+                    // Gets Teams' abbreviations
+                    var awayTeamAbbreviation = matchString.Substring(startIndexAwayTeam,
+                                                                     endIndexAwayTeam - startIndexAwayTeam);
+                    var homeTeamAbbreviation = matchString.Substring(startIndexHomeTeam,
+                                                                     endIndexHomeTeam - startIndexHomeTeam);
+
+                    // Gets Time of the game
+                    var timeString = matchString.Substring(startIndexTimeOfGame, endIndexTimeOfGame - startIndexTimeOfGame);
+                    var timeOfGame = GetTimeOfGameFromTimeString(timeString);
+                    var timeToday = System.DateTime.Now.Hour;
+
+                    // Creates Home team et Away Team
+                    var awayTeam = new Team(awayTeamAbbreviation, false);
+                    var homeTeam = new Team(homeTeamAbbreviation, false);
+
+                    if (timeToday >= timeOfGame)
+                        isBetOver = true;
+
+                    // Adds the match to the match list
+                    matchList.Add(new Match(awayTeam, homeTeam, timeOfGame, isBetOver));
+                }
+            }
+            catch
             {
-                // String indexes
-                var startIndexAwayTeam = matchString.IndexOf("rel=") + "rel=".Length;
-                var startIndexHomeTeam = matchString.LastIndexOf("rel=") + "rel=".Length;
-                var startIndexTimeOfGame = matchString.IndexOf("skedStartTimeLocal>") + "skedStartTimeLocal>".Length;
-                var endIndexAwayTeam = startIndexAwayTeam + "ABB".Length;
-                var endIndexHomeTeam = startIndexHomeTeam + "ABB".Length;
-                var endIndexTimeOfGame = startIndexTimeOfGame + "HH:MM AM".Length;
-                var isBetOver = false;
-
-                // Gets Teams' abbreviations
-                var awayTeamAbbreviation = matchString.Substring(startIndexAwayTeam,
-                                                                 endIndexAwayTeam - startIndexAwayTeam);
-                var homeTeamAbbreviation = matchString.Substring(startIndexHomeTeam,
-                                                                 endIndexHomeTeam - startIndexHomeTeam);
-
-                // Gets Time of the game
-                var timeString = matchString.Substring(startIndexTimeOfGame, endIndexTimeOfGame - startIndexTimeOfGame);
-                var timeOfGame = GetTimeOfGameFromTimeString(timeString);
-                var timeToday = System.DateTime.Now.Hour;
-
-                // Creates Home team et Away Team
-                var awayTeam = new Team(awayTeamAbbreviation, false);
-                var homeTeam = new Team(homeTeamAbbreviation, false);
-
-                if (timeToday >= timeOfGame)
-                    isBetOver = true;
-
-                // Adds the match to the match list
-                matchList.Add(new Match(awayTeam, homeTeam, timeOfGame, isBetOver));
+                throw(new NHLBetterException(NHLBetterException.Type.MatchListException, "Day::GetMatchListToday - No teams available"));
             }
-
+            
             return matchList;
         }
 
@@ -261,9 +290,7 @@ namespace NHLBetter
             var htmlDoc = (IHTMLDocument2) ms;
             var wc = new WebClient();
             var betStrList = new List<string>();
-            var dateStrList = new List<string>();
             
-
             var rawData = isLoadCalled ? mojRawData : Encoding.ASCII.GetString(wc.DownloadData(adress));
             mojRawData = rawData;
 
@@ -292,7 +319,7 @@ namespace NHLBetter
             foreach (var boutonStr in boutonTypeSelectedList)
             {
                 //This list is created in function of the bets we are supposed to find in the source code
-                betList.AddRange((IEnumerable<Bet>) MakeBetListForType(boutonStr));
+                betList.AddRange(MakeBetListForType(boutonStr));
             }
 
             //Memory management
@@ -312,11 +339,12 @@ namespace NHLBetter
                 }
                 // ----------------
 
-                // Recursive call if the counts are not equal, we try parsing htmlStr in a different way
-                betList =
-                    GetListOfBetsToday(
-                        "https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2", isLoadCalled);
-                return betList;
+                var ol = new List<object> {betStrList, betList};
+                throw (new NHLBetterException(NHLBetterException.Type.BetListException,
+                                              "Day::GetListOfBetsToday - Could not retrieve betList : Found " +
+                                              betStrList.Count +
+                                              " bets on miseojeu.com, and there were supposed to be " + betList.Count +
+                                              " bets.\nWould you like to see betLists to help debug?", ol));
             }
 
             //Lists contain the same number of bets.
@@ -325,6 +353,7 @@ namespace NHLBetter
                 betList[i].iniString = betStrList[i].Remove(0, "<TD id=".Length);
                 betList[i].Initialize();
             }
+
             for (var i = 0; i < betList.Count; i++)
             {
                 if (betList[i].GetBetType() == Bet.BetType.ExactScoreBet && betList[i].teamCity == "")

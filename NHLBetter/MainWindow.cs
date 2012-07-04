@@ -43,7 +43,7 @@ namespace NHLBetter
             {
                 listBox1.Items.Add(match.ToString());
             }
-            if (Today.MatchList != null)
+            if (Today.MatchList != null &&  Today.MatchList.Count != 0)
             {
                 listBox1.SetSelected(0, true);
                 listBox1_SelectedIndexChanged(sender, e);
@@ -53,13 +53,11 @@ namespace NHLBetter
             {
                 listBox1.Items.Clear();
             }
-
             
             FilterFactor_SelectedIndexChanged(sender, e);
             ProgressLbl.Text = "";
         }
-
-
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             ReadIni();
