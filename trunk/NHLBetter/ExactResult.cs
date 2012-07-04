@@ -15,11 +15,6 @@ public class ExactResult:Bet
         multiplicator = 37;
     }
 
-    //Destructor
-    ~ExactResult() 
-    { 
-    }
-
     override public void Initialize()
     {
         isTie = iniString.Contains("Match nul");
