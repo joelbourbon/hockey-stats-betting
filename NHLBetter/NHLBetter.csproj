@@ -65,7 +65,6 @@
     <Compile Include="Match.cs" />
     <Compile Include="MatchOver.cs" />
     <Compile Include="MostMinutesOfPenalty.cs" />
-    <Compile Include="NHLBetterException.cs" />
     <Compile Include="NumberOfGoals.cs" />
     <Compile Include="Overtime.cs" />
     <Compile Include="PlayerDuel.cs" />

@@ -67,6 +67,7 @@ namespace NHLBetter
             // Bug fix 'é' token is replaced by '?' token, so we replace it with 'e' token
             teamCity = teamCity.Replace('?', 'e');
         }     //Initializer
+
         virtual protected void IniGetId()
         {
             var idStr = "";
@@ -77,6 +78,7 @@ namespace NHLBetter
             }
             betID = int.Parse(idStr);
         }    //Id Initializer
+        
         virtual protected void IniGetTeam()
         {
             teamCity = "";
