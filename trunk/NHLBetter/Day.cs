@@ -10,7 +10,7 @@ namespace NHLBetter
     {
         public List<Match> MatchList = new List<Match>();
         public List<Bet> BetList = new List<Bet>();
-        private int howManyShotsOnGoalFix = 0;
+        private int howManyShotsOnGoalFix;
         private int[] BetsOfEachType = new int[12];
         public string nhlRawData;
         public string mojRawData;
@@ -20,7 +20,7 @@ namespace NHLBetter
         public void RefreshData()
         {
             const bool isLoadCalled = false;
-            Cursor.Current = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             
             //Clears the lists if they exist
             ClearLists();
@@ -29,25 +29,8 @@ namespace NHLBetter
                 MatchList = GetListOfGamesToday("http://www.nhl.com/ice/schedulebyday.htm#?navid=nav-sch-today", isLoadCalled);
                 BetList = GetListOfBetsToday("https://miseojeu.lotoquebec.com/en/betting-offer/hockey/national/matches?idAct=2", isLoadCalled);
             }
-            catch(NHLBetterException e)
-            {
-                switch(e.type)
-                {
-                    case NHLBetterException.Type.BetListException:
-                        var dr = MessageBox.Show(e.Message, @"error", MessageBoxButtons.YesNo);
-                        if (dr.ToString() == "Yes")
-                        {
-                            var MOJBets = (List<Bet>) (e.objectList.ToArray()[0]);
-                            var expectedBets = (List<Bet>)(e.objectList.ToArray()[1]);
-
-                            //This section would be used to debug betlists. Still in progress.
-                        }
-                        break;
-                    case NHLBetterException.Type.MatchListException:
-                        MessageBox.Show(e.Message, @"error", MessageBoxButtons.OK);
-                        break;
-                }
-                
+            catch
+            {                
             }
 
             Cursor.Current = Cursors.Default;
@@ -134,7 +117,7 @@ namespace NHLBetter
             }
             catch
             {
-                throw(new NHLBetterException(NHLBetterException.Type.MatchListException, "Day::GetMatchListToday - No teams available"));
+                //throw(new NHLBetterException(NHLBetterException.Type.MatchListException, "Day::GetMatchListToday - No teams available"));
             }
             
             return matchList;
@@ -338,13 +321,6 @@ namespace NHLBetter
                     BetsOfEachType[i] += BetsOfEachType[i - 1];
                 }
                 // ----------------
-
-                var ol = new List<object> {betStrList, betList};
-                throw (new NHLBetterException(NHLBetterException.Type.BetListException,
-                                              "Day::GetListOfBetsToday - Could not retrieve betList : Found " +
-                                              betStrList.Count +
-                                              " bets on miseojeu.com, and there were supposed to be " + betList.Count +
-                                              " bets.\nWould you like to see betLists to help debug?", ol));
             }
 
             //Lists contain the same number of bets.
