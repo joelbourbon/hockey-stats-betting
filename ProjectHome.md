@@ -1,0 +1,1 @@
+Software to help bet on game for Quebec
